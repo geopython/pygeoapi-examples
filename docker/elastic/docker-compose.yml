@@ -35,7 +35,7 @@ services:
 
   pygeoapi:
     env_file:
-      - .env
+      - default.env
 
     image: geopython/pygeoapi:latest
 
