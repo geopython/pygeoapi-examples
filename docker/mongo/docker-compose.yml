@@ -30,7 +30,11 @@
 version: '3.3'
 
 services:
+
   pygeoapi:
+    env_file:
+      - .env
+
     image: geopython/pygeoapi:latest
 
     container_name: pygeoapi_mongo
@@ -39,7 +43,7 @@ services:
       - /mongo-entrypoint.sh
 
     ports:
-      - 5000:80
+      - ${PORT}:80
 
     volumes:
       - ./pygeoapi/docker.config.yml:/pygeoapi/local.config.yml
@@ -76,7 +80,6 @@ services:
       - mongo
     ports:
       - 8081:8081
-
 
 volumes:
   datavolume: {}
