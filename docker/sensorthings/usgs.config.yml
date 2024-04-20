@@ -29,9 +29,9 @@
 
 server:
   bind:
-    host: 0.0.0.0 #change to your hostname if running your own instance
+    host: 0.0.0.0 
     port: ${PORT}
-  url: http://localhost:${PORT} #change to host URL  if running your own instance
+  url: http://localhost:${PORT} 
   mimetype: application/json; charset=UTF-8
   encoding: utf-8
   gzip: false
