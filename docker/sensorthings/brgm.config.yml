@@ -30,8 +30,8 @@
 server:
     bind:
         host: 0.0.0.0 #change to your hostname if running your own instance
-        port: 5000
-    url: http://localhost:5000 #change to host URL  if running your own instance
+        port: ${PORT}
+    url: http://localhost:${PORT} #change to host URL  if running your own instance
     mimetype: application/json; charset=UTF-8
     encoding: utf-8
     gzip: false
