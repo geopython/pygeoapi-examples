@@ -60,6 +60,11 @@ services:
 
   elastic_search:
     build: ./ES
+    deploy:
+      resources:
+        limits:
+          cpus: '1.50'
+          memory: 4G
 
     container_name: elastic
 # Elastic ports may be opened for debugging but should remain closed in
