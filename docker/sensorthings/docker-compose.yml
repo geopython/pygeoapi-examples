@@ -32,9 +32,11 @@ version: "3"
 services:
 
   pygeoapi:
+    env_file:
+      - .env
     image: geopython/pygeoapi:latest
     ports:
-      - "5000:80"
+      - ${PORT}:80
     volumes:
       - ./brgm.config.yml:/pygeoapi/local.config.yml
       # - ./usgs.config.yml:/pygeoapi/local.config.yml
