@@ -1,0 +1,18 @@
+---
+# A PostgreSQL instance to store the sample lakes dataset. Refer to the
+# `statefulset.yaml` file for the interesting details.
+resources:
+  - service.yaml
+  - statefulset.yaml
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app: postgresql
+
+configMapGenerator:
+  # Here we add the script which creates the pygeoapi database and
+  # non-provileged user.
+  - name: initdb
+    files:
+      - 01-pygeoapi.sh

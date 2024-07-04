@@ -1,0 +1,100 @@
+---
+# A PostgreSQL database, running as a Kubernetes stateful set.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql
+spec:
+  serviceName: postgresql
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: postgresql
+          # We use this official PostgGIS-enabled image,
+          image: postgis/postgis:16-3.4
+
+          env:
+            - name: PGDATA
+              value: /var/lib/postgresql/data/db-files
+
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: password
+
+            - name: POSTGRES_PASSWORD
+              value: md5
+
+            - name: POSTGRES_USER
+              value: postgres
+
+            - name: SAMPLE_CONFIG_POSTGRESQL_DBNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: database-config
+                  key: db_name
+
+            - name: SAMPLE_CONFIG_POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: password
+
+            - name: SAMPLE_CONFIG_POSTGRESQL_TABLE
+              valueFrom:
+                configMapKeyRef:
+                  name: database-config
+                  key: table_name
+
+            - name: SAMPLE_CONFIG_POSTGRESQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: username
+
+          ports:
+            - name: postgresql
+              containerPort: 5432
+
+          securityContext:
+            readOnlyRootFilesystem: true
+
+          volumeMounts:
+            - name: initdb
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
+
+            - name: data
+              mountPath: /var/lib/postgresql/data
+
+            - name: tmp
+              mountPath: /tmp
+
+            - name: var-run
+              mountPath: /var/run/postgresql
+
+      volumes:
+        - name: database-credentials
+          secret:
+            secretName: database-credentials
+
+        - name: initdb
+          configMap:
+            name: initdb
+
+        - name: tmp
+          emptyDir:
+            medium: Memory
+
+        - name: var-run
+          emptyDir:
+            medium: Memory
+
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1G

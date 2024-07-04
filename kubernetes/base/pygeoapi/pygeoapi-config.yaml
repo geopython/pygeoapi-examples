@@ -1,0 +1,93 @@
+---
+# A simple pygeoapi configuration, which just exposes the 10-m lake dataset
+# hosted in the PostgreSQL database.
+server:
+  bind:
+    host: 0.0.0.0
+    port: 5000
+  url: ${SAMPLE_CONFIG_PYGEOAPI_URL}
+  mimetype: application/json; charset=UTF-8
+  encoding: utf-8
+  gzip: false
+  languages:
+    - en-US
+  cors: false
+  pretty_print: true
+  limit: 10
+  map:
+    url: https://tile.openstreetmap.org/{z}/{x}/{y}.png
+    attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+
+logging:
+  level: INFO
+  logformat: "%(asctime)s %(process)s %(processName)s %(threadName)s %(levelname)s %(name)s %(message)s"
+
+metadata:
+  identification:
+    title: Sample Kubernetes deployment of pygeoapi
+    description: pygeoapi provides an API to geospatial data
+    keywords:
+      - geospatial
+      - data
+      - api
+      - kubernetes
+    keywords_type: theme
+    terms_of_service: https://creativecommons.org/licenses/by/4.0/
+    url: https://example.org
+  license:
+    name: CC-BY 4.0 license
+    url: https://creativecommons.org/licenses/by/4.0/
+  provider:
+    name: Organization Name
+    url: https://pygeoapi.io
+  contact:
+    name: Lastname, Firstname
+    position: Position Title
+    address: Mailing Address
+    city: City
+    stateorprovince: Administrative Area
+    postalcode: Zip or Postal Code
+    country: Country
+    phone: +xx-xxx-xxx-xxxx
+    fax: +xx-xxx-xxx-xxxx
+    email: you@example.org
+    url: Contact URL
+    hours: Mo-Fr 08:00-17:00
+    instructions: During hours of service. Off on weekends.
+    role: pointOfContact
+
+resources:
+  lakes:
+    type: collection
+    title: Large lakes (from a PostgreSQL database)
+    description: |
+      The data for these lakes comes from the PostgreSQL database deployed
+      alongside this pygeoapi instance in the same Kubernetes namespace.
+    keywords:
+      - lakes
+      - water bodies
+    links:
+      - type: text/html
+        rel: canonical
+        title: information
+        href: http://www.naturalearthdata.com/
+        hreflang: en-US
+    extents:
+      spatial:
+        bbox: [-180, -90, 180, 90]
+        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+      temporal:
+        begin: 2011-11-11T11:11:11Z
+        end: null
+    providers:
+      - type: feature
+        name: PostgreSQL
+        data:
+          host: ${SAMPLE_CONFIG_POSTGRESQL_HOST}
+          port: ${SAMPLE_CONFIG_POSTGRESQL_PORT}
+          dbname: ${SAMPLE_CONFIG_POSTGRESQL_DBNAME}
+          user: ${SAMPLE_CONFIG_POSTGRESQL_USER}
+          password: ${SAMPLE_CONFIG_POSTGRESQL_PASSWORD}
+        id_field: gid
+        table: ${SAMPLE_CONFIG_POSTGRESQL_TABLE}
+        geom_field: geom
