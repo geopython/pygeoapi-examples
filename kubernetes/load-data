@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -eux -o pipefail
+
+here=$(cd "$(dirname "$0")" && pwd)
+
+bzcat  "${here}/ne_10m_lakes.sql.bz2" |
+  kubectl -n pygeoapi-demo exec -i postgresql-0 -- \
+    psql \
+      --host localhost \
+      --user pygeoapi \
+      natural_earth

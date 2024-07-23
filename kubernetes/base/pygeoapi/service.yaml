@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pygeoapi
+spec:
+  ports:
+    - name: http
+      port: 5000
+      targetPort: http

@@ -1,0 +1,105 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pygeoapi
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: pygeoapi
+          # We use this pygeoapi version by default.
+          image: geopython/pygeoapi:0.16.1
+          command:
+            - bash
+            - /etc/pygeoapi/entrypoint.sh
+          env:
+            # We will use this configuration file ...
+            - name: PYGEOAPI_CONFIG
+              value: /etc/pygeoapi/pygeoapi-config.yaml
+
+            # ... and this location for the auto-generated OpenAPI spec.
+            - name: PYGEOAPI_OPENAPI
+              value: /var/lib/pygeoapi/pygeoapi-openapi.yaml
+
+            # The pygeoapi config file expects these `SAMPLE_CONFIG_*`
+            # environment variables to be set.
+
+            - name: SAMPLE_CONFIG_POSTGRESQL_DBNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: database-config
+                  key: db_name
+
+            - name: SAMPLE_CONFIG_POSTGRESQL_HOST
+              value: postgresql-0.postgresql
+
+            - name: SAMPLE_CONFIG_POSTGRESQL_TABLE
+              valueFrom:
+                configMapKeyRef:
+                  name: database-config
+                  key: table_name
+
+            - name: SAMPLE_CONFIG_POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: password
+
+            - name: SAMPLE_CONFIG_POSTGRESQL_PORT
+              value: "5432"
+
+            - name: SAMPLE_CONFIG_POSTGRESQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: username
+
+          # The value of the URL of this pygeoapi deployment depends on where
+          # it will be deployed to --- so we do not set it here. We will
+          # override it later, in the target-dependent definitions.
+          #
+          # - name: SAMPLE_CONFIG_PYGEOAPI_URL
+          #   value: https://example.comp
+
+          ports:
+            - name: http
+              containerPort: 80
+
+          volumeMounts:
+            - name: config
+              mountPath: /etc/pygeoapi
+              readOnly: true
+
+            - name: tmp
+              mountPath: /tmp
+
+            - name: var
+              mountPath: /var/lib/pygeoapi
+
+          securityContext:
+            readOnlyRootFilesystem: true
+
+      volumes:
+        - name: config
+          configMap:
+            name: pygeoapi-config
+            items:
+              - key: entrypoint.sh
+                path: entrypoint.sh
+
+              - key: pygeoapi-config.yaml
+                path: pygeoapi-config.yaml
+
+        - name: database-credentials
+          secret:
+            secretName: database-credentials
+
+        - name: tmp
+          emptyDir:
+            medium: Memory
+
+        - name: var
+          emptyDir:
+            medium: Memory

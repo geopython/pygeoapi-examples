@@ -1,0 +1,24 @@
+---
+# The definition of the Kubernetes deployment object for the pygeoapi pods.
+#
+# The interesting details are in the `deployment.yaml` file and in the pygeoapi
+# configuration file mentioned below.
+resources:
+  - deployment.yaml
+  - service.yaml
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app: pygeoapi
+
+configMapGenerator:
+  # Here we do two things:
+  #
+  # * Override pygeoapi's container entrypoint script, to make the whole thing
+  #   easier, and
+  # * Override the default pygeoapi configuration.
+  - name: pygeoapi-config
+    files:
+      - entrypoint.sh
+      - pygeoapi-config.yaml

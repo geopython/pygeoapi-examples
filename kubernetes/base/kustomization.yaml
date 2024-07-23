@@ -1,0 +1,23 @@
+---
+# Sample pygeo deployments are built from these pieces --- look into their
+# respective entries under this directory for more information
+resources:
+  - postgresql
+  - pygeoapi
+  - ./ingress.yaml
+
+configMapGenerator:
+  # Here we define the names of the PostgreSQL database and tables which will
+  # store the lakes dataset.
+  - name: database-config
+    literals:
+      - db_name=natural_earth
+      - table_name=ne_10m_lakes
+
+secretGenerator:
+  # And here we define the credentials for the non-privileged user which
+  # pygeoapi will use to connect to the lakes database.
+  - name: database-credentials
+    literals:
+      - username=pygeoapi
+      - password=pygeoapi

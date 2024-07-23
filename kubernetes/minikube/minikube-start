@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+minikube start \
+  --addons=default-storageclass,ingress,storage-provisioner \
+  --delete-on-failure=true \
+  --disable-metrics \
+  --force \
+  --install-addons \
+  --interactive=false \
+  --logtostderr=true \
+  --wait=all \
+  --wait-timeout=60m \
+  "$@"
