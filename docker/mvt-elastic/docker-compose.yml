@@ -53,7 +53,7 @@ services:
 
     depends_on:
       - elastic_search
-      
+
     restart: on-failure
 
   elastic_search:
@@ -69,7 +69,12 @@ services:
       - elastic_search_data:/usr/share/elasticsearch/data
       # - ./data:/data # Exercise 1 - First - Ready to pull data from here
 
-
+    deploy:
+      resources:
+        limits:
+          cpus: '1.50'
+          memory: 4G
+          
 volumes:
   elastic_search_data: {}
 
