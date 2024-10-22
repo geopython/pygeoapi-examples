@@ -53,6 +53,8 @@ services:
 
     depends_on:
       - elastic_search
+      
+    restart: on-failure
 
   elastic_search:
     build: ./ES
@@ -60,11 +62,13 @@ services:
     container_name: elastic
 # Elastic ports may be opened for debugging but should remain closed in
 # production workloads.
-    # ports:
-    #   - 9300:9300
-    #   - 9200:9200
+    ports:
+      - 9300:9300
+      - 9200:9200
     volumes:
       - elastic_search_data:/usr/share/elasticsearch/data
+      # - ./data:/data # Exercise 1 - First - Ready to pull data from here
+
 
 volumes:
   elastic_search_data: {}
