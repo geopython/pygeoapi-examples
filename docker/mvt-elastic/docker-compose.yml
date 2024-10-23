@@ -54,6 +54,8 @@ services:
     depends_on:
       - elastic_search
 
+    restart: on-failure
+
   elastic_search:
     build: ./ES
 
@@ -65,6 +67,12 @@ services:
     #   - 9200:9200
     volumes:
       - elastic_search_data:/usr/share/elasticsearch/data
+
+    deploy:
+      resources:
+        limits:
+          cpus: '1.50'
+          memory: 4G
 
 volumes:
   elastic_search_data: {}
