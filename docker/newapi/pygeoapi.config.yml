@@ -9,7 +9,9 @@ server:
         - en-US
     cors: true
     pretty_print: true
-    limit: 10
+    limits:
+        default_items: 10
+        max_items: 50
     map:
         url: https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png
         attribution: <a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia

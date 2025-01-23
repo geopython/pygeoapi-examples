@@ -41,7 +41,9 @@ server:
         - fr-CA
     # cors: true
     pretty_print: true
-    limit: 10
+    limits:
+        default_items: 10
+        max_items: 50
     templates:
       path: /pygeoapi/pygeoapi-skin-dashboard-main/templates
       static: /pygeoapi/pygeoapi-skin-dashboard-main/static # css/js/img
