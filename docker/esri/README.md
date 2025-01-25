@@ -16,10 +16,10 @@ individual features in the layer.
 
 ## Building and Running
 
-To build and run the [Docker compose file](docker-compose.yml) in localhost:
+To run the [Docker compose file](docker-compose.yml) in localhost:
 
 ```
-docker compose up [--build] [-d]
+docker compose up [-d]
 ```
 
 Navigate to `localhost:5000`.

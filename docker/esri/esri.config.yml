@@ -85,30 +85,6 @@ metadata:
     role: pointOfContact
 
 resources:
-  counties:
-    type: collection
-    title: Counties
-    description: USA counties generalized boundaries
-    keywords:
-      - counties
-      - featureserver
-    links:
-      - type: text/html
-        rel: canonical
-        title: data source
-        href: https://www.arcgis.com/home/item.html?id=7566e0221e5646f99ea249a197116605
-        hreflang: en-US
-    extents:
-      spatial:
-        bbox: [-159.8, 19.6, -67.6, 65.5]
-        crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
-    providers:
-      - type: feature
-        name: ESRI
-        data: https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/USA_Counties_Generalized/FeatureServer/0
-        id_field: OBJECTID
-        title_field: NAME
-
   states:
     type: collection
     title: States
