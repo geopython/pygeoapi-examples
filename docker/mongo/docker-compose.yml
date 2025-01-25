@@ -51,7 +51,7 @@ services:
       - mongo
 
   mongo:
-    image: mongo:7.0.2
+    image: mongo:8.0.4
     container_name: mongo
     ports:
       - 27017:27017
@@ -62,7 +62,7 @@ services:
         MONGO_INITDB_DATABASE: pop_places
 
   mongo-express:
-    image: mongo-express:1.0.0
+    image: mongo-express:1.0.2-20-alpine3.19
     restart: always
     container_name: mongo_express
     environment:
