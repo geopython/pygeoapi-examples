@@ -32,7 +32,9 @@
 services:
   pygeoapi:
     image: geopython/pygeoapi:latest
-
+    volumes:
+      - ./pygeoapi/docker.config.yml:/pygeoapi/local.config.yml
+      
     container_name: pygeoapi
 
     ports:
