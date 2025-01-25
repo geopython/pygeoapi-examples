@@ -121,7 +121,7 @@ resources:
               options:
                 zoom:
                     min: 0
-                    max: 16
+                    max: 29
               format:
                     name: pbf
                     mimetype: application/vnd.mapbox-vector-tile
