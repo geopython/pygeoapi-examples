@@ -51,9 +51,6 @@ services:
     image: postgis/postgis
 
     container_name: postgis
-    
-    ports: 
-      - "5432:5432" # close this in production, or at least change it to a different port!
 
     environment:
       POSTGRES_USER: postgres
