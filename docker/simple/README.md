@@ -13,6 +13,6 @@ DockerHub and start the `pygeoapi` server. With your browser got to http://local
 Run the [docker-compose.yml](docker-compose.yml) as follows:
 
 ```
-docker-compose up [-d]
+docker compose up [-d]
 
 ```
