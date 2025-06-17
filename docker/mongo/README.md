@@ -15,5 +15,5 @@ This config is only for local development and testing.
 These composition does not require building any images. Run the [Docker compose file](docker-compose.yml) in localhost:
 
 ```
-docker-compose up
+docker compose up
 ```

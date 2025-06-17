@@ -33,6 +33,6 @@ To build and run the [Docker compose file](docker-compose.yml) in localhost:
 
 ```
 sudo sysctl -w vm.max_map_count=262144
-docker-compose build
-docker-compose up
+docker compose build
+docker compose up
 ```

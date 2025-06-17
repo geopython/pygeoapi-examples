@@ -21,5 +21,5 @@ tippecanoe --output-to-directory=/data/tiles/ --force --maximum-zoom=16 --drop-d
 To run the [Docker compose file](docker-compose.yml) in localhost:
 
 ```
-docker-compose up
+docker compose up
 ```
