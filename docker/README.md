@@ -22,6 +22,8 @@ The [mongo](mongo) example demonstrates a docker compose configuration to run py
 
 The [mvt-elastic](mvt-elastic) example demonstrates a docker compose configuration to run pygeoapi with local Elasticsearch MVT backend.
 
+The [mvt-postgresql](mvt-postgresql) example demonstrates a docker compose configuration to run pygeoapi with local PostgreSQL MVT backend.
+
 The [mvt-tippecanoe](mvt-tippecanoe) example demonstrates a docker compose configuration to run pygeoapi with tiles on disk, pre-generated using the Tippecanoe backend.
 
 The [sensorthings](sensorthings) example demonstrates various pygeoapi implementations of SensorThings API endpoints.

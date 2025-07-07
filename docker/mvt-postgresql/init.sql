@@ -1,0 +1,524 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.4 (Debian 17.4-1.pgdg110+2)
+-- Dumped by pg_dump version 17.4 (Debian 17.4-1.pgdg110+2)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: tiger; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA tiger;
+
+
+ALTER SCHEMA tiger OWNER TO postgres;
+
+--
+-- Name: tiger_data; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA tiger_data;
+
+
+ALTER SCHEMA tiger_data OWNER TO postgres;
+
+--
+-- Name: topology; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA topology;
+
+
+ALTER SCHEMA topology OWNER TO postgres;
+
+--
+-- Name: SCHEMA topology; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA topology IS 'PostGIS Topology schema';
+
+
+--
+-- Name: fuzzystrmatch; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS fuzzystrmatch WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION fuzzystrmatch; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance between strings';
+
+
+--
+-- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION postgis; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION postgis IS 'PostGIS geometry and geography spatial types and functions';
+
+
+--
+-- Name: postgis_tiger_geocoder; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder WITH SCHEMA tiger;
+
+
+--
+-- Name: EXTENSION postgis_tiger_geocoder; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION postgis_tiger_geocoder IS 'PostGIS tiger geocoder and reverse geocoder';
+
+
+--
+-- Name: postgis_topology; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS postgis_topology WITH SCHEMA topology;
+
+
+--
+-- Name: EXTENSION postgis_topology; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and functions';
+
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: ne_110m_populated_places_simple; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ne_110m_populated_places_simple (
+    id integer NOT NULL,
+    geom public.geometry(Point,4326),
+    adm0_a3 character varying,
+    adm0cap double precision,
+    adm0name character varying,
+    adm1name character varying,
+    capalt integer,
+    capin character varying,
+    changed double precision,
+    checkme integer,
+    diffascii integer,
+    diffnote character varying,
+    featurecla character varying,
+    geonameid double precision,
+    iso_a2 character varying,
+    labelrank integer,
+    latitude double precision,
+    longitude double precision,
+    ls_match integer,
+    ls_name character varying,
+    megacity integer,
+    meganame character varying,
+    min_zoom double precision,
+    name character varying,
+    namealt character varying,
+    nameascii character varying,
+    namediff integer,
+    namepar character varying,
+    natscale integer,
+    note character varying,
+    pop_max integer,
+    pop_min integer,
+    pop_other integer,
+    rank_max integer,
+    rank_min integer,
+    scalerank integer,
+    sov0name character varying,
+    sov_a3 character varying,
+    worldcity double precision
+);
+
+
+ALTER TABLE public.ne_110m_populated_places_simple OWNER TO postgres;
+
+--
+-- Name: ne_110m_populated_places_simple_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.ne_110m_populated_places_simple_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.ne_110m_populated_places_simple_id_seq OWNER TO postgres;
+
+--
+-- Name: ne_110m_populated_places_simple_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.ne_110m_populated_places_simple_id_seq OWNED BY public.ne_110m_populated_places_simple.id;
+
+
+--
+-- Name: ne_110m_populated_places_simple id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ne_110m_populated_places_simple ALTER COLUMN id SET DEFAULT nextval('public.ne_110m_populated_places_simple_id_seq'::regclass);
+
+
+--
+-- Data for Name: ne_110m_populated_places_simple; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ne_110m_populated_places_simple (id, geom, adm0_a3, adm0cap, adm0name, adm1name, capalt, capin, changed, checkme, diffascii, diffnote, featurecla, geonameid, iso_a2, labelrank, latitude, longitude, ls_match, ls_name, megacity, meganame, min_zoom, name, namealt, nameascii, namediff, namepar, natscale, note, pop_max, pop_min, pop_other, rank_max, rank_min, scalerank, sov0name, sov_a3, worldcity) FROM stdin;
+1	0101000020E61000004933FE4722E8284080FE1EC09EF34440	VAT	1	Vatican (Holy See)	Lazio	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	6691831	VA	3	41.9000122264	12.4478083889	1	Vatican City	0	\N	7	Vatican City	\N	Vatican City	0	\N	10	\N	832	832	562430	2	2	8	Vatican (Holy Sea)	VAT	1
+2	0101000020E61000006333B8B22FE228400D2002FDD1F74540	SMR	1	San Marino	\N	\N	\N	0	5	0	\N	Admin-0 capital	3168070	SM	0	43.9171500845	12.4666702867	1	San Marino	0	\N	6.1	San Marino	\N	San Marino	0	\N	20	\N	29579	29000	0	7	7	7	San Marino	SMR	0
+3	0101000020E6100000E0F4B1E688082340F0A452DC1D914740	LIE	1	Liechtenstein	\N	\N	\N	0	0	0	\N	Admin-0 capital	3042030	LI	0	47.1337237743	9.51666947291	1	Vaduz	0	\N	6.7	Vaduz	\N	Vaduz	0	\N	20	\N	36281	5342	33009	7	5	7	Liechtenstein	LIE	0
+4	0101000020E6100000C082B50233333F40C09DCC8477773AC0	SWZ	0	Swaziland	Manzini	1	Legislative and	4	5	0	Changed scale rank.	Admin-0 capital alt	935048	SZ	8	-26.4666674614	31.1999971097	1	Lobamba	0	\N	6	Lobamba	\N	Lobamba	0	\N	30	\N	9782	4557	0	5	4	6	Swaziland	SWZ	0
+5	0101000020E6100000C088A4741F851840C04A26E34ACE4840	LUX	1	Luxembourg	Luxembourg	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	2960316	LU	8	49.6116603791	6.13000280623	1	Luxembourg	0	\N	6	Luxembourg	\N	Luxembourg	0	\N	30	\N	107260	76684	106219	9	8	6	Luxembourg	LUX	0
+6	0101000020E610000090F9F396CCC4634040C021A5A4AA1B40	FSM	1	Federated States of Micronesia	\N	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	2081986	FM	0	6.91664369601	158.149974324	1	Palikir	0	\N	6	Palikir	\N	Palikir	0	\N	30	\N	4645	4645	0	4	4	6	Federated States of Micronesia	FSM	0
+7	0101000020E6100000C8E920F6286C6540401550F679691C40	MHL	1	Marshall Islands	\N	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	2113779	MH	0	7.10300431122	171.380000176	1	Majuro	0	\N	6	Majuro	\N	Majuro	0	\N	30	\N	25400	20500	0	7	7	6	Marshall Islands	MHL	0
+8	0101000020E610000014F4E2C5EE666640C0965E9C860821C0	TUV	1	Tuvalu	\N	\N	\N	4	5	0	Population from GeoNames. Changed scale rank.	Admin-0 capital	2110394	TV	0	-8.51665199904	179.216647094	0	Funafuti	0	\N	6	Funafuti	\N	Funafuti	0	\N	30	\N	4749	4749	0	4	4	6	Tuvalu	TUV	0
+9	0101000020E6100000E4E25EAF0CD46040408B7CFB17F31D40	PLW	1	Palau	\N	\N	\N	4	5	0	Location adjusted. Changed scale rank.	Admin-0 capital	1559804	PW	0	7.48739617298	134.626548467	1	Melekeok	0	\N	6	Melekeok	\N	Melekeok	0	\N	30	\N	7026	7026	0	5	5	6	Palau	PLW	0
+10	0101000020E610000060986664174E23C0401D3BB5811E3A40	SAH	0	Western Sahara	\N	1	Claimed as inte	4	0	0	Added place.	Admin-0 capital alt	-1	EH	0	26.119166686	-9.65252221825	2	\N	0	\N	6	Bir Lehlou	\N	Bir Lehlou	1	\N	30	\N	500	200	0	2	1	6	Western Sahara	SAH	0
+11	0101000020E61000004060D1D8ADA01D4018FABBB5ACDE4540	MCO	1	Monaco	\N	\N	\N	4	0	0	Location adjusted. Changed scale rank.	Admin-0 capital	2993458	MC	0	43.7396456879	7.40691317347	1	Monaco	0	\N	5.1	Monaco	\N	Monaco	0	\N	30	\N	36371	36371	102371	7	7	6	Monaco	MCO	0
+12	0101000020E610000078BFB2F08FA06540002D494D3769F53F	KIR	1	Kiribati	\N	\N	\N	4	5	0	Location adjusted. Changed scale rank.	Admin-0 capital	2110079	KI	0	1.33818750562	173.017570829	1	Tarawa	0	\N	6	Tarawa	\N	Tarawa	0	\N	30	\N	28802	22534	0	7	7	6	Kiribati	KIR	0
+13	0101000020E6100000F0789151C09E4540E03E845B876827C0	COM	1	Comoros	\N	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	921772	KM	0	-11.7041576957	43.2402440987	1	Moroni	0	\N	6	Moroni	\N	Moroni	0	\N	30	\N	128698	42872	0	9	7	6	Comoros	COM	0
+14	0101000020E6100000016E53C88643F83FC0FD1B0C00404540	AND	1	Andorra	\N	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	3130067	AD	0	42.5000014435	1.51648596051	1	Andorra	0	\N	6	Andorra	\N	Andorra	0	\N	30	\N	53998	22256	53371	8	7	6	Andorra	AND	0
+15	0101000020E6100000A8036C112EC24EC0A0A40190D24D2540	TTO	1	Trinidad and Tobago	Port of Spain	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	3573890	TT	8	10.6519970896	-61.5170308854	1	Port-of-Spain	0	\N	5.1	Port-of-Spain	\N	Port-of-Spain	0	\N	50	\N	294934	49031	419082	10	7	4	Trinidad and Tobago	TTO	0
+16	0101000020E6100000F0629E7CFF0E3E40FF637A47EF39FFBF	RWA	1	Rwanda	Kigali City	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	202061	RW	0	-1.95359006868	30.0605317777	1	Kigali	1	Kigali	5.1	Kigali	\N	Kigali	0	\N	50	\N	860000	745261	1152904	11	11	4	Rwanda	RWA	0
+17	0101000020E6100000D0B5E83522223F404085810610513AC0	SWZ	1	Swaziland	Hhohho	\N	Administrative	4	0	0	Changed scale rank.	Admin-0 capital	934985	SZ	8	-26.3166507784	31.1333345121	1	Mbabane	0	\N	5.6	Mbabane	\N	Mbabane	0	\N	50	\N	90138	76218	89979	8	8	4	Swaziland	SWZ	0
+18	0101000020E610000050DDA78E7C943F404061B404E5511340	SSD	0	South Sudan	Central Equatoria	\N	\N	20	0	0	Changed country.	Admin-0 capital	373303	SS	5	4.82997519828	31.5800255928	1	Juba	0	\N	5.1	Juba	\N	Juba	0	\N	50	\N	111975	111975	111975	9	9	4	South Sudan	SSD	0
+19	0101000020E6100000C17C52BC7014114070ACB5A53E0A4A40	NLD	0	Netherlands	Zuid-Holland	1	Official, legis	0	0	0	\N	Admin-0 capital alt	2747373	NL	8	52.080036844	4.26996130231	1	The Hague	0	\N	5.6	The Hague	\N	The Hague	0	\N	50	\N	1406000	501725	688599	12	11	4	Kingdom of the Netherlands	NLD	0
+20	0101000020E6100000C0726A05AA072D40D00FF3AF13074740	SVN	1	Slovenia	Osrednjeslovenska	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	3196359	SI	8	46.0552883088	14.5149690335	1	Ljubljana	0	\N	5.6	Ljubljana	\N	Ljubljana	0	\N	50	\N	314807	255115	256316	10	10	4	Slovenia	SVN	0
+21	0101000020E6100000F01B5973F21D3140387EF6CC33134840	SVK	1	Slovakia	Bratislavský	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	3060972	SK	7	48.15001833	17.1169807522	1	Bratislava	0	\N	5.1	Bratislava	\N	Bratislava	0	\N	50	\N	423737	373687	361489	10	10	4	Slovakia	SVK	0
+22	0101000020E6100000B0EABD4A38C44940E0B90EBC5B493940	QAT	1	Qatar	Ad Dawhah	\N	\N	4	5	0	Location adjusted. Changed scale rank.	Admin-0 capital	290030	QA	8	25.2865560089	51.5329678943	1	Doha	0	\N	5.6	Doha	\N	Doha	0	\N	50	\N	1450000	731310	0	12	11	4	Qatar	QAT	0
+23	0101000020E610000040C9C9B02C443340B8D4BFFCA43B4540	MNE	1	Montenegro	Podgorica	\N	\N	4	0	0	Location adjusted. Changed scale rank.	Admin-0 capital	3193044	ME	8	42.4659725129	19.2663069241	1	Podgorica	0	\N	5.6	Podgorica	\N	Podgorica	0	\N	50	\N	145850	136473	0	9	9	4	Montenegro	MNE	0
+24	0101000020E610000044859CAFCCFC5340001F4E9E9A991B40	LKA	0	Sri Lanka	Colombo	1	Legislative cap	4	0	0	Name changed.	Admin-0 capital alt	1238992	LK	6	6.90000388481	79.9499930409	1	Kotte	0	\N	5.6	Sri Jawewardenepura Kotte	\N	Sri Jawewardenepura Kotte	1	\N	50	\N	115826	115826	2456292	9	9	4	Sri Lanka	LKA	0
+25	0101000020E6100000002677F079245E4020B530DE136E3040	PHL	0	Philippines	Benguet	1	\N	40	0	0	Changed scale rank.	Admin-0 capital alt	1728930	PH	5	16.4299906606	120.569942585	1	Baguio City	0	\N	5.6	Baguio City	\N	Baguio City	0	\N	50	\N	447824	272714	164877	10	10	4	Philippines	PHL	0
+26	0101000020E610000038355E1E00E0414080FAE594B4BB18C0	TZA	0	Tanzania	Dodoma	1	Offical capital	4	0	0	Location adjusted.	Admin-0 capital alt	160196	TZ	5	-6.18330605177	35.7500036201	1	Dodoma	0	\N	5.6	Dodoma	\N	Dodoma	0	\N	50	\N	218269	180541	0	10	9	4	United Republic of Tanzania	TZA	0
+27	0101000020E61000000096CDD02EDE1D4078A452DC55754740	CHE	1	Switzerland	Bern	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	2661552	CH	7	46.9166827587	7.46697546248	1	Bern	0	\N	5.6	Bern	\N	Bern	0	\N	50	\N	275329	121631	267814	10	9	4	Switzerland	CHE	0
+28	0101000020E610000040B4C92D67662AC040AAC33D65263B40	MAR	0	Morocco	Laâyoune - Boujdour - Sakia El Hamra	1	Claimed as capi	0	0	0	\N	Admin-0 capital alt	2462881	MA	5	27.1499823191	-13.2000059422	1	Laayoune	0	\N	5.6	Laayoune	\N	Laayoune	0	\N	50	\N	188084	176365	176365	9	9	4	Morocco	MAR	0
+29	0101000020E6100000C045A4F17D2A354028499ABD56554540	KOS	1	Kosovo	Pristina	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	786714	-99	8	42.6667096141	21.1659842516	1	Pristina	0	\N	5.6	Pristina	\N	Pristina	0	\N	50	\N	465186	198214	261783	10	9	4	Kosovo	KOS	0
+30	0101000020E610000088FC31A489B14EC00090F7B81E9A2E40	DMA	1	Dominica	Saint George	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	3575635	DM	8	15.3010156443	-61.3870129818	1	Roseau	0	\N	5.1	Roseau	\N	Roseau	0	\N	50	\N	23336	16571	23336	7	6	4	Dominica	DMA	0
+31	0101000020E610000018DFF7B7F1924540A03F61BCA5302740	DJI	1	Djibouti	Djibouti	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	223817	DJ	8	11.5950144643	43.1480016671	1	Djibouti	0	\N	5.6	Djibouti	\N	Djibouti	0	\N	50	\N	923000	604013	335001	11	11	4	Djibouti	DJI	0
+32	0101000020E6100000606D06B3EC6C594001792E9CE94F0740	MYS	0	Malaysia	Selangor	1	Administrative	0	5	0	\N	Admin-0 capital alt	6697380	MY	6	2.91401979462	101.70194698	1	Putrajaya	0	\N	5.6	Putrajaya	\N	Putrajaya	0	\N	50	\N	67964	50000	956431	8	7	4	Malaysia	MYS	0
+33	0101000020E61000003488E20AF0F76040B01E988C16844140	JPN	0	Japan	Kyoto	1	Official capita	0	0	0	\N	Admin-0 capital alt	1857910	JP	2	35.0299922882	135.749997924	1	Kyoto	1	Kyoto	5.1	Kyoto	\N	Kyoto	0	\N	50	\N	1805000	1459640	1827367	12	12	4	Japan	JPN	0
+34	0101000020E6100000A029B1BF799730C060F6D27E62E82A40	GMB	1	The Gambia	Banjul	\N	\N	4	0	0	Location adjusted. Changed scale rank.	Admin-0 capital	2413876	GM	8	13.4538764603	-16.5917014892	1	Banjul	0	\N	5.6	Banjul	\N	Banjul	0	\N	50	\N	43094	34589	581300	7	7	4	Gambia, The	GMB	0
+35	0101000020E610000000DDA054F76E354018D75C3300004540	MKD	1	Macedonia	Centar	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	785842	MK	8	42.0000061229	21.4334614651	1	Skopje	0	\N	5.6	Skopje	\N	Skopje	0	\N	50	\N	494087	474889	491890	10	10	4	Macedonia	MKD	0
+36	0101000020E610000000141A59EACE4DC0200CBAAE39342A40	BRB	1	Barbados	Saint Michael	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	2075807	BB	8	13.1020025828	-59.6165267351	1	Bridgetown	0	\N	5.6	Bridgetown	\N	Bridgetown	0	\N	50	\N	191152	96578	191814	9	8	4	Barbados	BRB	0
+37	0101000020E6100000003D565DD9EE044080BF5B12E9EE1940	BEN	0	Benin	Ouémé	1	Official capita	0	0	0	\N	Admin-0 capital alt	2392087	BJ	8	6.48331097302	2.61662552757	1	Porto-Novo	0	\N	5.6	Porto-Novo	\N	Porto-Novo	0	\N	50	\N	300000	234168	806945	10	10	4	Benin	BEN	0
+38	0101000020E610000050A0745B295C3D40009F3F043A020BC0	BDI	1	Burundi	Bujumbura Mairie	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	425378	BI	8	-3.37608722037	29.3600060615	1	Bujumbura	0	\N	5.6	Bujumbura	\N	Bujumbura	0	\N	50	\N	331700	331700	1208361	10	10	4	Burundi	BDI	0
+39	0101000020E6100000B8E783DC249B4EC0A0C4D833EB4B2A40	VCT	1	Saint Vincent and the Grenadines	\N	\N	\N	4	5	0	Location adjusted. Changed scale rank.	Admin-0 capital	4359981	VC	0	13.1482788279	-61.2120624203	1	Kingstown	0	\N	5.1	Kingstown	\N	Kingstown	0	\N	50	\N	49485	24518	0	7	7	4	Saint Vincent and the Grenadines	VCT	0
+40	0101000020E6100000B8359F4400804EC0004450AB02012C40	LCA	1	Saint Lucia	\N	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	3028258	LC	0	14.0019734893	-61.0000081804	1	Castries	0	\N	5.6	Castries	\N	Castries	0	\N	50	\N	37963	10634	0	7	6	4	Saint Lucia	LCA	0
+41	0101000020E610000098841DF6C65B4FC010B930DE514D3140	KNA	1	Saint Kitts and Nevis	\N	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	3575551	KN	0	17.3020304555	-62.7170093197	1	Basseterre	0	\N	5.6	Basseterre	\N	Basseterre	0	\N	50	\N	21887	15500	21887	7	6	4	Saint Kitts and Nevis	KNA	0
+42	0101000020E6100000F8DF72CCFFBF4C40E0364ED3A82A34C0	MUS	1	Mauritius	\N	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	934154	MU	0	-20.1666385714	57.4999938546	1	Port Louis	0	\N	5.6	Port Louis	\N	Port Louis	0	\N	50	\N	595491	148416	304613	11	9	4	Mauritius	MUS	0
+43	0101000020E610000040A54C2AEEDE4EC00022E6C3F21A2840	GRD	1	Grenada	\N	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	3579925	GD	0	12.0526334017	-61.7416432261	1	Saint Georgee۪s	0	\N	5.1	Saint George's	\N	Saint George's	0	\N	50	\N	33734	27343	27343	7	7	4	Grenada	GRD	0
+44	0101000020E610000000DB4970A14A494030098D6D733C3A40	BHR	1	Bahrain	\N	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	290340	BH	0	26.2361362905	50.5830517159	1	Manama	0	\N	5.6	Manama	\N	Manama	0	\N	50	\N	563920	157474	563666	11	9	4	Bahrain	BHR	0
+45	0101000020E6100000E04176E8CDEC4EC090E429A4371E3140	ATG	1	Antigua and Barbuda	\N	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	3576022	AG	0	17.1180365183	-61.8500338151	1	Saint John's	0	\N	5.1	Saint John's	\N	Saint John's	0	\N	50	\N	35499	24226	0	7	7	4	Antigua and Barbuda	ATG	0
+46	0101000020E6100000E0E4A3CD24164CC0902C4D8B946D41C0	URY	1	Uruguay	Montevideo	\N	\N	0	0	0	\N	Admin-0 capital	5038018	UY	8	-34.8580415662	-56.1710522884	1	Montevideo	1	Montevideo	4	Montevideo	\N	Montevideo	0	\N	110	\N	1513000	5324	1276128	12	5	3	Uruguay	URY	0
+47	0101000020E610000000DB77637188F33F40FB5B9B18891840	TGO	1	Togo	Maritime	\N	\N	0	0	0	\N	Admin-0 capital	2365267	TG	8	6.13193707166	1.22275711936	1	Lome	1	Lomi	5	Lomé	Lome	Lome	0	\N	110	\N	1452000	749700	1256715	12	11	3	Togo	TGO	0
+48	0101000020E6100000A0D88FC4FE5B24406887186FC1664240	TUN	1	Tunisia	Tunis	\N	\N	0	0	0	\N	Admin-0 capital	2464470	TN	7	36.8027781362	10.1796780992	1	Tunis	0	\N	5	Tunis	\N	Tunis	0	\N	110	\N	2412500	728453	1675117	12	11	3	Tunisia	TUN	0
+49	0101000020E6100000D0942E88EC2E4B40C0F3189378773840	ARE	1	United Arab Emirates	Abu Dhabi	\N	\N	0	0	0	\N	Admin-0 capital	292968	AE	8	24.4666835724	54.3665933826	1	Abu Dhabi	0	\N	5	Abu Dhabi	\N	Abu Dhabi	0	\N	110	\N	603492	560230	560230	11	11	3	United Arab Emirates	ARE	0
+50	0101000020E610000038D4FEF10F314D40E889186F99F94240	TKM	1	Turkmenistan	Ahal	\N	\N	0	0	0	\N	Admin-0 capital	162183	TM	8	37.9499949331	58.3832991118	1	Ashgabat	0	\N	5	Ashgabat	\N	Ashgabat	0	\N	110	\N	727700	577982	556048	11	11	3	Turkmenistan	TKM	0
+51	0101000020E6100000704D2AA208483C40209A935953D42EC0	ZMB	1	Zambia	Lusaka	\N	\N	0	0	0	\N	Admin-0 capital	909137	ZM	6	-15.4166442679	28.2833275947	1	Lusaka	1	Lusaka	4	Lusaka	\N	Lusaka	0	\N	110	\N	1328000	1267440	1240558	12	12	3	Zambia	ZMB	0
+52	0101000020E61000005078AF8DF20A3F40104F4124DBD031C0	ZWE	1	Zimbabwe	Harare	\N	\N	0	0	0	\N	Admin-0 capital	890299	ZW	6	-17.8177896944	31.0447094307	1	Harare	1	Harare	4	Harare	\N	Harare	0	\N	110	\N	1572000	1542813	1831877	12	12	3	Zimbabwe	ZWE	0
+53	0101000020E6100000600955CE15655F40E0EF5028681E21C0	TLS	1	East Timor	Dili	\N	\N	0	0	0	\N	Admin-0 capital	1645457	TL	8	-8.55938840855	125.579455932	1	Dili	0	\N	5	Dili	\N	Dili	0	\N	110	\N	234331	193563	55154	10	9	3	East Timor	TLS	0
+54	0101000020E610000070E06EEB210A6540A0CC21DABCBB31C0	VUT	1	Vanuatu	Shefa	\N	\N	0	0	0	\N	Admin-0 capital	2135171	VU	8	-17.733350404	168.316640584	1	Port-Vila	0	\N	4	Port Vila	\N	Port Vila	0	\N	110	\N	44040	35901	7702	7	7	3	Vanuatu	VUT	0
+55	0101000020E6100000485CB3E10BCE55C080A3DA463E352C40	HND	1	Honduras	Francisco Morazán	\N	\N	0	0	0	\N	Admin-0 capital	3600949	HN	8	14.1020449005	-87.2175293393	1	Tegucigalpa	1	Tegucigalpa	5	Tegucigalpa	\N	Tegucigalpa	0	\N	110	\N	946000	850848	1014546	11	11	3	Honduras	HND	0
+56	0101000020E61000005036D93161154DC03F7D7A9738351B40	GUY	1	Guyana	East Berbice-Corentyne	\N	\N	0	5	0	\N	Admin-0 capital	3378644	GY	8	6.80197369275	-58.1670286475	1	Georgetown1	0	\N	4	Georgetown	\N	Georgetown	0	\N	110	\N	264350	235017	264350	10	10	3	Guyana	GUY	0
+57	0101000020E61000009029412634F335C0141AABFC99095040	ISL	1	Iceland	Suðurnes	\N	\N	0	0	1	\N	Admin-0 capital	3413829	IS	8	64.1500236197	-21.9500144872	1	Reykjavik	0	\N	3.7	Reykjavík	\N	Reykjavik	0	\N	110	\N	166212	113906	160116	9	9	3	Iceland	ISL	0
+58	0101000020E61000006489BD78A11552C010C5991C008B3240	HTI	1	Haiti	Ouest	\N	\N	0	0	0	\N	Admin-0 capital	3718426	HT	8	18.5410245961	-72.3360345883	1	Port-au-Prince	1	Port-au-Prince	5	Port-au-Prince	\N	Port-au-Prince	0	\N	110	\N	1998000	1234742	2385397	12	12	3	Haiti	HTI	0
+59	0101000020E6100000707459956A4A4040001875710564D43F	UGA	1	Uganda	Kampala	\N	\N	0	0	0	\N	Admin-0 capital	232422	UG	5	0.31665895477	32.5833235257	1	Kampala	1	Kampala	5	Kampala	\N	Kampala	0	\N	110	\N	1420000	1353189	2153702	12	12	3	Uganda	UGA	0
+60	0101000020E6100000E8289F4461954BC0C0C46C2312571740	SUR	1	Suriname	Paramaribo	\N	\N	0	5	0	\N	Admin-0 capital	3383330	SR	8	5.83503012992	-55.1670308854	1	Paramaribo	0	\N	5	Paramaribo	\N	Paramaribo	0	\N	110	\N	254169	223757	248161	10	10	3	Suriname	SUR	0
+61	0101000020E610000000549D2CEDEA0040E045E8BA8C092B40	NER	1	Niger	Niamey	\N	\N	0	0	0	\N	Admin-0 capital	2440485	NE	6	13.5167059519	2.11665604514	1	Niamey	1	Niamey	5	Niamey	\N	Niamey	0	\N	110	\N	915000	742791	715325	11	11	3	Niger	NER	0
+62	0101000020E6100000D4B9433D873151401058E53BAF474340	TJK	1	Tajikistan	Tadzhikistan Territories	\N	\N	0	0	0	\N	Admin-0 capital	1221874	TJ	8	38.5600352163	68.7738793527	1	Dushanbe	0	\N	5	Dushanbe	\N	Dushanbe	0	\N	110	\N	1086244	679400	1081361	12	11	3	Tajikistan	TJK	0
+63	0101000020E6100000F8B4709A5CD24CC050D6A78A614B39C0	PRY	1	Paraguay	Asunción	\N	\N	0	5	1	\N	Admin-0 capital	1730025	PY	7	-25.2964029757	-57.6415051693	1	Asuncion	1	Asuncian	4	Asunción	Asuncion	Asuncion	0	\N	110	\N	1870000	11693	636771	12	6	3	Paraguay	PRY	0
+64	0101000020E6100000B0D22AD94E9155C0C0219D3C574F2840	NIC	1	Nicaragua	Managua	\N	\N	0	0	0	\N	Admin-0 capital	3617763	NI	8	12.1530165801	-86.2684916603	1	Managua	1	Managua	5	Managua	\N	Managua	0	\N	110	\N	920000	920000	1088194	11	11	3	Nicaragua	NIC	0
+65	0101000020E610000060A9502CEA782AC0C0F32862A4F12040	SLE	1	Sierra Leone	Western	\N	\N	0	0	0	\N	Admin-0 capital	2408770	SL	8	8.47001141249	-13.2342157404	1	Freetown	1	Freetown	5	Freetown	\N	Freetown	0	\N	110	\N	827000	13768	1074640	11	6	3	Sierra Leone	SLE	0
+66	0101000020E6100000585E24428A4A52409896AC3AD9D94040	PAK	1	Pakistan	F.C.T.	\N	\N	0	0	0	\N	Admin-0 capital	1176615	PK	2	33.6999959503	73.1666344797	1	Islamabad	1	Islamabad	5	Islamabad	\N	Islamabad	0	\N	110	\N	780000	601600	893673	11	11	3	Pakistan	PAK	0
+67	0101000020E6100000503F2BFC23545540C07522A5F8B73B40	NPL	1	Nepal	Bhaktapur	\N	\N	0	0	0	\N	Admin-0 capital	1283240	NP	6	27.7166919139	85.3166422108	1	Kathmandu	1	Kathmandu	5	Kathmandu	\N	Kathmandu	0	\N	110	\N	895000	895000	1099610	11	11	3	Nepal	NPL	0
+68	0101000020E610000000961192DB3A3A40D00F33EBB71E3DC0	ZAF	1	South Africa	Orange Free State	\N	Judicial capita	4	0	0	Changed scale rank.	Admin-0 capital	1018725	ZA	3	-29.1199938774	26.2299128812	1	Bloemfontein	0	\N	5	Bloemfontein	\N	Bloemfontein	0	\N	110	\N	463064	456669	456513	10	10	3	South Africa	ZAF	0
+69	0101000020E6100000806812573C3A3C402053BC3879B439C0	ZAF	1	South Africa	Gauteng	\N	Administrative	0	0	0	\N	Admin-0 capital	964137	ZA	3	-25.7069205538	28.2294290758	1	Pretoria	1	Pretoria	5	Pretoria	\N	Pretoria	0	\N	110	\N	1338000	1338000	1443084	12	12	3	South Africa	ZAF	0
+70	0101000020E6100000F4595AFD286662404098242FEEED22C0	PNG	1	Papua New Guinea	Central	\N	\N	0	0	0	\N	Admin-0 capital	2088122	PG	8	-9.46470782587	147.192503621	1	Port Moresby	0	\N	4	Port Moresby	\N	Port Moresby	0	\N	110	\N	283733	251136	251304	10	10	3	Papua New Guinea	PNG	0
+71	0101000020E610000054961B7B64FE6340207DCAC940E022C0	SLB	1	Solomon Islands	Guadalcanal	\N	\N	0	0	0	\N	Admin-0 capital	2108502	SB	8	-9.43799429509	159.949765734	1	Honiara	0	\N	5	Honiara	\N	Honiara	0	\N	110	\N	76328	56298	76328	8	8	3	Solomon Islands	SLB	0
+72	0101000020E6100000506861293DE253C0C0612CFF9EF02140	PAN	1	Panama	Panama	\N	\N	0	0	0	\N	Admin-0 capital	3703443	PA	8	8.96801719048	-79.5330371518	1	Panama City1	1	Ciudad de Panam	5	Panama City	Ciudad de Panam	Panama City	0	\N	110	\N	1281000	408168	939725	12	10	3	Panama	PAN	0
+73	0101000020E610000080AD32617B581BC028B41C453D034140	MAR	1	Morocco	Rabat - Salé - Zemmour - Zaer	\N	\N	0	0	0	\N	Admin-0 capital	2538475	MA	5	34.0252990916	-6.83613082013	1	Rabat	1	Rabat	5	Rabat	\N	Rabat	0	\N	110	\N	1705000	1655753	2029349	12	12	3	Morocco	MAR	0
+74	0101000020E6100000C0370EF592DB3C40B0182D9DA4804740	MDA	1	Moldova	Chisinau	\N	\N	0	5	0	\N	Admin-0 capital	618426	MD	8	47.0050236197	28.8577111397	1	Chisinau	0	\N	5	Chișinău	\N	Chisinau	0	\N	110	\N	688134	635994	664472	11	11	3	Moldova	MDA	0
+75	0101000020E6100000089A18EE294B404020D9A78A0DF439C0	MOZ	1	Mozambique	Maputo	\N	\N	0	0	0	\N	Admin-0 capital	1040652	MZ	6	-25.9552774874	32.5891629626	1	Maputo	1	Maputo	5	Maputo	\N	Maputo	0	\N	110	\N	1446000	1191613	1365454	12	12	3	Mozambique	MOZ	0
+76	0101000020E6100000C04FB287AFAE4640809BEA698C8C0040	SOM	1	Somalia	Banaadir	\N	\N	0	5	0	\N	Admin-0 capital	53654	SO	8	2.06668133433	45.3666776111	1	Mogadishu	1	Muqdisho	4	Mogadishu	Muqdisho	Mogadishu	0	\N	110	\N	1100000	875388	849392	12	11	3	Somalia	SOM	0
+77	0101000020E610000000F0E6A6F14B4D409004C7DA029D3740	OMN	1	Oman	Muscat	\N	\N	0	0	0	\N	Admin-0 capital	287286	OM	8	23.6133248077	58.5933121326	1	Muscat	0	\N	5	Muscat	\N	Muscat	0	\N	110	\N	734697	586861	586861	11	11	3	Oman	OMN	0
+78	0101000020E610000058B8CF62E5F653404089513B55BA1B40	LKA	1	Sri Lanka	Colombo	\N	De facto, admin	0	5	0	\N	Admin-0 capital	3465927	LK	6	6.93196575818	79.8577506093	1	Colombo	0	\N	5	Colombo	\N	Colombo	0	\N	110	\N	217000	217000	2490974	10	10	3	Sri Lanka	LKA	0
+79	0101000020E610000084CEA2F389BA5A40407FDC5095F54740	MNG	1	Mongolia	Ulaanbaatar	\N	\N	0	0	0	\N	Admin-0 capital	2028462	MN	7	47.9166733999	106.916615762	1	Ulaanbaatar	1	Ulaanbaatar	4	Ulaanbaatar	\N	Ulaanbaatar	0	\N	110	\N	885000	769612	765359	11	11	3	Mongolia	MNG	0
+80	0101000020E61000001089F9466315314010F332EBEB9136C0	NAM	1	Namibia	Khomas	\N	\N	0	0	0	\N	Admin-0 capital	3352136	NA	6	-22.5700060844	17.0835461005	1	Windhoek	0	\N	5	Windhoek	\N	Windhoek	0	\N	110	\N	268132	262796	262796	10	10	3	Namibia	NAM	0
+81	0101000020E6100000804AF6A322201E40E0ADAAB0A92B2240	NGA	1	Nigeria	Federal Capital Territory	\N	Official and ad	4	5	0	Changed scale rank.	Admin-0 capital	2322794	NG	2	9.08333314914	7.53332800155	1	Abuja	1	Abuja	4	Abuja	\N	Abuja	0	\N	110	\N	1576000	162135	0	12	9	3	Nigeria	NGA	0
+82	0101000020E6100000005C295A5C322FC0C0EC0B67E4BA2740	GNB	1	Guinea Bissau	Bissau	\N	\N	0	0	0	\N	Admin-0 capital	2374775	GW	8	11.865023823	-15.5983608413	1	Bissau	0	\N	5	Bissau	\N	Bissau	0	\N	110	\N	403339	388028	403339	10	10	3	Guinea Bissau	GNB	0
+83	0101000020E6100000481C2D9C36F741401044DE60B4F33F40	JOR	1	Jordan	Amman	\N	\N	0	0	0	\N	Admin-0 capital	250441	JO	8	31.9500252472	35.9332999255	1	Amman	1	Amman	5	Amman	\N	Amman	0	\N	110	\N	1060000	1060000	2633729	12	12	3	Jordan	JOR	0
+84	0101000020E6100000D068B5020F51394080181C8C78574B40	LTU	1	Lithuania	Vilniaus	\N	\N	0	0	0	\N	Admin-0 capital	593116	LT	8	54.6833663118	25.3166352933	1	Vilnius	0	\N	5	Vilnius	\N	Vilnius	0	\N	110	\N	542366	507029	494356	11	11	3	Lithuania	LTU	0
+85	0101000020E6100000C0E8A05497193840D87271619A794C40	LVA	1	Latvia	Riga	\N	\N	0	0	0	\N	Admin-0 capital	456172	LV	8	56.9500238232	24.0999653714	1	Riga	0	\N	4	Riga	\N	Riga	0	\N	110	\N	742572	705033	0	11	11	3	Latvia	LVA	0
+86	0101000020E61000006C85E31A54A55240684446D400704540	KGZ	1	Kyrgyzstan	Bishkek	\N	\N	0	5	0	\N	Admin-0 capital	1528675	KG	8	42.8730794465	74.5852042225	1	Bishkek	1	Bishkek	5	Bishkek	\N	Bishkek	0	\N	110	\N	837000	804212	781714	11	11	3	Kyrgyzstan	KGZ	0
+87	0101000020E6100000F09EAEC8B77B3B4030EB739211513DC0	LSO	1	Lesotho	Maseru	\N	\N	0	0	0	\N	Admin-0 capital	932505	LS	8	-29.3166743787	27.48327307	1	Maseru	0	\N	5	Maseru	\N	Maseru	0	\N	110	\N	361324	118355	356225	10	9	3	Lesotho	LSO	0
+88	0101000020E6100000882B56F8E0C147402035BC3829EA32C0	MDG	1	Madagascar	Antananarivo	\N	\N	0	0	0	\N	Admin-0 capital	1070940	MG	6	-18.9166373506	47.5166239001	1	Antananarivo	1	Antananarivo	5	Antananarivo	\N	Antananarivo	0	\N	110	\N	1697000	1391433	1844658	12	12	3	Madagascar	MDG	0
+89	0101000020E6100000181CE3B720A053C0F23FE786F844CBBF	ECU	1	Ecuador	Pichincha	\N	\N	0	0	0	\N	Admin-0 capital	3652462	EC	7	-0.21498818065	-78.5000511085	1	Quito	1	Quito	4	Quito	\N	Quito	0	\N	110	\N	1701000	1399814	1435528	12	12	3	Ecuador	ECU	0
+90	0101000020E6100000647E72FA800555C0606A2CFFB8DF2340	CRI	1	Costa Rica	San José	\N	\N	0	5	1	\N	Admin-0 capital	3669623	CR	8	9.93501242974	-84.0840513527	1	San Jose1	1	San Josi	5	San José	San Jose	San Jose	0	\N	110	\N	1284000	1724	1434681	12	3	3	Costa Rica	CRI	0
+91	0101000020E6100000809820821E4D56C0A0212962846C2B40	SLV	1	El Salvador	San Salvador	\N	\N	0	5	0	\N	Admin-0 capital	1690681	SV	8	13.7100016469	-89.2030412208	1	San Salvador	1	San Salvador	5	San Salvador	\N	San Salvador	0	\N	110	\N	1433000	2807	2139587	12	4	3	El Salvador	SLV	0
+92	0101000020E6100000A0834BA21D3153C0300A91B121FA3140	JAM	1	Jamaica	Kingston	\N	\N	4	5	0	Location adjusted.	Admin-0 capital	3489854	JM	8	17.9770766238	-76.7674337137	1	Kingston1	0	\N	5	Kingston	\N	Kingston	0	\N	110	\N	937700	664973	18171	11	11	3	Jamaica	JAM	0
+93	0101000020E6100000C00095EB2A182E4000BB36D6E63A2840	TCD	1	Chad	Hadjer-Lamis	\N	\N	0	0	0	\N	Admin-0 capital	2427123	TD	7	12.1130965362	15.0491483141	1	Ndjamena	1	N'Djam-na	5	Ndjamena	N'Djamnna	Ndjamena	0	\N	110	\N	989000	681387	686347	11	11	3	Chad	TCD	0
+94	0101000020E610000060FC25C10991214080FB940208000E40	GNQ	1	Equatorial Guinea	Bioko Norte	\N	\N	4	0	0	Location adjusted.	Admin-0 capital	2309527	GQ	8	3.75001527803	8.78327754582	1	Malabo	0	\N	5	Malabo	\N	Malabo	0	\N	110	\N	155963	155963	0	9	9	3	Equatorial Guinea	GNQ	0
+95	0101000020E6100000A0DC312577774340E07B4971ABAA2E40	ERI	1	Eritrea	Anseba	\N	\N	0	0	0	\N	Admin-0 capital	343300	ER	8	15.3333392527	38.9333235258	1	Asmara	0	\N	5	Asmara	\N	Asmara	0	\N	110	\N	620802	563930	587094	11	11	3	Eritrea	ERI	0
+96	0101000020E61000004094184DFFFF2F4020FEE19E66E64640	HRV	1	Croatia	Grad Zagreb	\N	\N	0	0	0	\N	Admin-0 capital	3186886	HR	8	45.8000067333	15.9999946682	1	Zagreb	0	\N	5	Zagreb	\N	Zagreb	0	\N	110	\N	722526	698966	690638	11	11	3	Croatia	HRV	0
+97	0101000020E6100000304493E060BA3840E0AE414B89B74D40	EST	1	Estonia	Harju	\N	\N	0	0	0	\N	Admin-0 capital	588409	EE	8	59.4338773795	24.7280407295	1	Tallinn	0	\N	5	Tallinn	\N	Tallinn	0	\N	110	\N	394024	340027	317949	10	10	3	Estonia	EST	0
+98	0101000020E6100000D082163D43E440404004697372F72BC0	MWI	1	Malawi	Lilongwe	\N	\N	0	0	0	\N	Admin-0 capital	927967	MW	8	-13.9832950655	33.78330196	1	Lilongwe	0	\N	5	Lilongwe	\N	Lilongwe	0	\N	110	\N	646750	646750	1061388	11	11	3	Malawi	MWI	0
+99	0101000020E6100000C8A05AAFD9A156C000CAFC68043F2D40	GTM	1	Guatemala	Guatemala	\N	\N	0	0	0	\N	Admin-0 capital	3598132	GT	8	14.6211346628	-90.5269655779	1	Guatemala	1	Ciudad de Guatemala (Guatemala City)	5	Guatemala	Ciudad de Guatemala (Guatemala City)	Guatemala	0	\N	110	\N	1024000	994938	2391150	12	11	3	Guatemala	GTM	0
+100	0101000020E6100000400CFD647AEA2240FD7BBFFC34AAD83F	GAB	1	Gabon	Estuaire	\N	\N	0	0	0	\N	Admin-0 capital	2399697	GA	7	0.38538860972	9.45796504582	1	Libreville	0	\N	5	Libreville	\N	Libreville	0	\N	110	\N	578156	483355	483522	11	10	3	Gabon	GAB	0
+101	0101000020E6100000BC3E6177224E6640201603550D2232C0	FJI	1	Fiji	Central	\N	\N	4	0	0	Location adjusted.	Admin-0 capital	2198148	FJ	8	-18.1330159314	178.441707315	1	Suva	0	\N	5	Suva	\N	Suva	0	\N	110	\N	175399	88271	0	9	8	3	Fiji	FJI	0
+102	0101000020E610000020AE7C91DEE751C010665762DD8540C0	CHL	0	Chile	Valparaíso	1	Legislative cap	4	0	1	Changed scale rank.	Admin-0 capital alt	3445575	CL	3	-33.0477644666	-71.6210136329	1	Valparaiso2	1	Valpara so	5	Valparaíso	Valparaiso	Valparaiso	0	\N	110	\N	854000	15938	130815	11	6	3	Chile	CHL	0
+103	0101000020E6100000E0D6A0D15FF32FC0B0BFCD1420163240	MRT	1	Mauritania	Nouakchott	\N	\N	0	0	0	\N	Admin-0 capital	2377450	MR	7	18.0864270212	-15.9753404149	1	Nouakchott	0	\N	5	Nouakchott	\N	Nouakchott	0	\N	110	\N	742144	661400	742144	11	11	3	Mauritania	MRT	0
+104	0101000020E6100000807B502C040120C0C0AE25C5CD4D2940	MLI	1	Mali	Bamako	\N	\N	0	0	0	\N	Admin-0 capital	2460596	ML	6	12.6500146677	-8.00003910464	1	Bamako	1	Bamako	4	Bamako	\N	Bamako	0	\N	110	\N	1494000	1297281	1301407	12	12	3	Mali	MLI	0
+105	0101000020E610000050A7525BFEC0414090CD7CA4DCEF4040	LBN	1	Lebanon	Beirut	\N	\N	0	5	0	\N	Admin-0 capital	276781	LB	8	33.871975117	35.50970821	1	Beirut	1	Bayrut	5	Beirut	Bayrut	Beirut	0	\N	110	\N	1846000	1712125	1661980	12	12	3	Lebanon	LBN	0
+106	0101000020E61000005066FD05F9644640C86AA2E30CDD4440	GEO	1	Georgia	Tbilisi	\N	\N	0	0	0	\N	Admin-0 capital	611717	GE	8	41.7250099885	44.7907954496	1	Tbilisi	1	Tbilisi	5	Tbilisi	T'Bilisi	Tbilisi	0	\N	110	\N	1100000	1005257	977179	12	12	3	Georgia	GEO	0
+107	0101000020E610000050F313A760DB5140D8212D1D2F974940	KAZ	1	Kazakhstan	Aqmola	\N	\N	0	0	0	\N	Admin-0 capital	1526273	KZ	6	51.1811253043	71.4277742095	1	Astana	0	\N	4	Astana	\N	Astana	0	\N	110	\N	345604	325021	317445	10	10	3	Kazakhstan	KAZ	0
+108	0101000020E61000005C34991266A65940D070B22C79F73140	LAO	1	Laos	Vientiane [prefecture]	\N	\N	0	0	0	\N	Admin-0 capital	1651944	LA	8	17.9666927276	102.59998002	1	Vientiane	0	\N	5	Vientiane	\N	Vientiane	0	\N	110	\N	754000	570348	469811	11	11	3	Laos	LAO	0
+109	0101000020E6100000801009C6C3902E4000A359E6690711C0	COG	1	Congo (Brazzaville)	Pool	\N	\N	0	0	0	\N	Admin-0 capital	2260535	CG	7	-4.25918577181	15.2846894925	1	Brazzaville	1	Brazzaville	5	Brazzaville	\N	Brazzaville	0	\N	110	\N	1355000	1163890	1174778	12	12	3	Congo (Brazzaville)	COG	0
+110	0101000020E6100000A0B727D0465D2BC0200463CF22112340	GIN	1	Guinea	Conakry	\N	\N	0	5	0	\N	Admin-0 capital	2422465	GN	8	9.53152284641	-13.6802350275	1	Conakry	1	Conakry	5	Conakry	\N	Conakry	0	\N	110	\N	1494000	1494000	1498020	12	12	3	Guinea	GIN	0
+111	0101000020E6100000C00C29581D1A15C03F8E8BA805461B40	CIV	1	Ivory Coast	Lacs	1	Official capita	4	0	0	Changed scale rank.	Admin-0 capital	2279755	CI	8	6.81838096	-5.27550256491	1	Yamoussoukro	0	\N	5	Yamoussoukro	\N	Yamoussoukro	0	\N	110	\N	206499	194530	206499	10	9	3	Ivory Coast	CIV	0
+112	0101000020E61000006C1C80EEECEC52C0E8BD201596B54640	CAN	1	Canada	Ontario	\N	\N	0	5	0	\N	Admin-0 capital	6094817	CA	2	45.4166967967	-75.7000153012	1	Ottawa	1	Ottawa-Gatineau	3	Ottawa	Ottawa-Gatineau	Ottawa	0	\N	110	\N	1145000	812129	872781	12	11	3	Canada	CAN	0
+113	0101000020E6100000600CA5B64E77344088FDC72209694640	SRB	1	Serbia	Grad Beograd	\N	\N	0	0	0	\N	Admin-0 capital	792680	RS	8	44.8186454458	20.4679906806	1	Belgrade	1	Beograd	5	Belgrade	\N	Belgrade	0	Beograd	110	\N	1099000	1099000	1271541	12	12	3	Republic of Serbia	SRB	0
+114	0101000020E6100000884F0DEDBABB5C40C050A3F387881340	BRN	1	Brunei	Brunei and Muara	\N	\N	0	0	0	\N	Admin-0 capital	1820906	BN	8	4.88333111462	114.933284057	1	Bandar Seri Begawan	0	\N	5	Bandar Seri Begawan	\N	Bandar Seri Begawan	0	\N	110	\N	296500	140000	222513	10	9	3	Brunei	BRN	0
+115	0101000020E6100000DC576EE79B5050C0E0D5BE107D0A33C0	BOL	1	Bolivia	Chuquisaca	\N	Official (const	0	0	0	\N	Admin-0 capital	3903987	BO	6	-19.0409708467	-65.2595156267	1	Sucre	0	\N	4.7	Sucre	\N	Sucre	0	\N	110	\N	224838	221736	221736	10	10	3	Bolivia	BOL	0
+116	0101000020E6100000D4F659B9173156C0201F974485403140	BLZ	1	Belize	Cayo	\N	\N	0	0	0	\N	Admin-0 capital	3582672	BZ	8	17.2520335072	-88.7670729998	1	Belmopan	0	\N	5	Belmopan	\N	Belmopan	0	\N	110	\N	15220	13381	15220	6	6	3	Belize	BLZ	0
+117	0101000020E6100000A0DA77F8EB8E3240C022E49A71771140	CAF	1	Central African Republic	Bangui	\N	\N	0	0	0	\N	Admin-0 capital	2389853	CF	7	4.36664430635	18.5582881253	1	Bangui	0	\N	5	Bangui	\N	Bangui	0	\N	110	\N	831925	622771	782274	11	11	3	Central African Republic	CAF	0
+118	0101000020E61000006029766687072740806273F2FCF20E40	CMR	1	Cameroon	Centre	\N	\N	0	0	0	\N	Admin-0 capital	2220957	CM	6	3.86670066214	11.5166507555	1	Yaounde	1	Yaound	5	Yaounde	Yaounde	Yaounde	0	\N	110	\N	1611000	1060587	1060747	12	12	3	Cameroon	CMR	0
+119	0101000020E6100000B0053751A2D1334000B09DDAECA94440	ALB	1	Albania	Durrës	\N	\N	0	0	0	\N	Admin-0 capital	3183875	AL	8	41.3275407095	19.8188830146	1	Tirana	0	\N	5	Tirana	\N	Tirana	0	\N	110	\N	895350	421286	517792	11	10	3	Albania	ALB	0
+120	0101000020E6100000F8A9414A7C41464098EC8DB56F174440	ARM	1	Armenia	Erevan	\N	\N	0	5	0	\N	Admin-0 capital	616052	AM	8	40.1811507355	44.5135513904	1	Yerevan	1	Yerevan	5	Yerevan	\N	Yerevan	0	\N	110	\N	1102000	1093485	1154748	12	12	3	Armenia	ARM	0
+121	0101000020E6100000F896BC5E1DEE4840285A2E09D8324440	AZE	1	Azerbaijan	Baki	\N	\N	0	0	0	\N	Admin-0 capital	587084	AZ	8	40.3952720327	49.8622171619	1	Baku	1	Baku	5	Baku	\N	Baku	0	\N	110	\N	2122300	1892000	1518801	12	12	3	Azerbaijan	AZE	0
+122	0101000020E6100000388124428A3A5A404012C6989C1A2740	KHM	1	Cambodia	Phnom Penh	\N	\N	0	5	0	\N	Admin-0 capital	1821306	KH	8	11.5500301299	104.91663448	1	Phnom Penh	1	Phnum Penh	5	Phnom Penh	Phnum Penh	Phnom Penh	0	\N	110	\N	1466000	1466000	1604086	12	12	3	Cambodia	KHM	0
+123	0101000020E610000004C9013DB90951C0D0D1C9ACFB7E30C0	BOL	1	Bolivia	La Paz	\N	Administrative	0	0	0	\N	Admin-0 capital	3911925	BO	6	-16.4979736137	-68.1499851905	1	La Paz3	1	La Paz	4	La Paz	\N	La Paz	0	\N	110	\N	1590000	812799	4400	12	11	3	Bolivia	BOL	0
+124	0101000020E610000000DB14A4F42404404055B1F0999B1940	BEN	1	Benin	Ouémé	\N	De facto, admin	0	0	0	\N	Admin-0 capital	2394819	BJ	8	6.40000856417	2.51999059918	1	Cotonou	1	Cotonou	5	Cotonou	\N	Cotonou	0	\N	110	\N	762000	690584	1060640	11	11	3	Benin	BEN	0
+125	0101000020E6100000F018A5B690503740D84A80C1B7574540	BGR	1	Bulgaria	Grad Sofiya	\N	\N	0	0	0	\N	Admin-0 capital	727011	BG	7	42.6833494253	23.3166540107	1	Sofia	1	Sofia	5	Sofia	\N	Sofia	0	\N	110	\N	1185000	874827	871735	12	11	3	Bulgaria	BGR	0
+126	0101000020E610000060CF15F48E903B40F8DAF73872F34A40	BLR	1	Belarus	Minsk	\N	\N	0	0	0	\N	Admin-0 capital	625144	BY	6	53.8999774364	27.5666271553	1	Minsk	1	Minsk	5	Minsk	\N	Minsk	0	\N	110	\N	1805000	1577138	1557919	12	12	3	Belarus	BLR	0
+127	0101000020E6100000A4AE219BE568564060A1EC9915793B40	BTN	1	Bhutan	Thimphu	\N	\N	4	0	0	Location adjusted.	Admin-0 capital	1252416	BT	8	27.4729858592	89.639014037	1	Thimphu	0	\N	5	Thimphu	\N	Thimphu	0	\N	110	\N	98676	79185	0	8	8	3	Bhutan	BTN	0
+128	0101000020E6100000F0D11B6975E9394030AA7ACC74A538C0	BWA	1	Botswana	South-East	\N	\N	0	0	0	\N	Admin-0 capital	933773	BW	7	-24.6463134574	25.9119477933	1	Gaborone	0	\N	5	Gaborone	\N	Gaborone	0	\N	110	\N	208411	159243	158896	10	9	3	Botswana	BWA	0
+129	0101000020E6100000E872A5FB20A46240901A85473AA441C0	AUS	1	Australia	Australian Capital Territory	\N	\N	4	0	0	Location adjusted.	Admin-0 capital	2172517	AU	3	-35.2830285454	149.129026244	1	Canberra	0	\N	4	Canberra	\N	Canberra	0	\N	110	\N	327700	234032	0	10	10	3	Australia	AUS	0
+130	0101000020E6100000FFCE3D1E3D6DF8BF60017B1A99BE2840	BFA	1	Burkina Faso	Kadiogo	\N	\N	0	0	0	\N	Admin-0 capital	2357048	BF	8	12.3703159779	-1.5247237563	1	Ouagadougou	1	Ouagadougou	5	Ouagadougou	\N	Ouagadougou	0	\N	110	\N	1149000	835457	713874	12	11	3	Burkina Faso	BFA	0
+131	0101000020E6100000C0E0B1650C6232408030B288CDEC4540	BIH	1	Bosnia and Herzegovina	Sarajevo	\N	\N	0	5	0	\N	Admin-0 capital	3191281	BA	8	43.850022399	18.383001667	1	Sarajevo	0	\N	5	Sarajevo	\N	Sarajevo	0	\N	110	\N	696731	628902	627065	11	11	3	Bosnia and Herzegovina	BIH	0
+132	0101000020E6100000702CA6907707584030E2E49ABCC43340	MMR	1	Myanmar	Mandalay	\N	\N	4	0	0	Location adjusted.	Admin-0 capital	6611854	MM	5	19.7665570261	96.1186185292	1	Naypyidaw	1	Nay Pyi Taw	5	Naypyidaw	Nay Pyi Taw	Naypyidaw	0	\N	110	\N	930000	194824	0	11	9	3	Myanmar	MMR	0
+133	0101000020E6100000B8403CDD0EE765C0D01CBA8B752335C0	TON	1	Tonga	\N	\N	\N	4	5	0	Location adjusted.	Admin-0 capital	4032402	TO	0	-21.1385123567	-175.220564478	1	Nukualofa	0	\N	5	Nukualofa	\N	Nukualofa	0	\N	110	\N	42620	23658	42620	7	7	3	Tonga	TON	0
+134	0101000020E6100000F0D620145C08464040E67F41BB1E2340	SOL	1	Somaliland	\N	\N	\N	4	5	0	Changed scale rank.	Admin-0 capital	57289	-99	0	9.56002239882	44.0653100167	1	Hargeysa	0	\N	5	Hargeysa	\N	Hargeysa	0	\N	110	\N	477876	247018	247018	10	10	3	Somaliland	SOL	0
+135	0101000020E6100000F052EA4399B94B4000FACD496E7712C0	SYC	1	Seychelles	\N	\N	\N	0	5	0	\N	Admin-0 capital	241131	SC	0	-4.61663165397	55.4499897856	1	Victoria4	0	\N	5	Victoria	\N	Victoria	0	\N	110	\N	33576	22881	33737	7	7	3	Seychelles	SYC	0
+136	0101000020E610000000E9F9C9ECEE1A40F77B33D77556D53F	STP	1	Sao Tome and Principe	\N	\N	\N	0	5	1	\N	Admin-0 capital	3388092	ST	0	0.33340211883	6.73332515323	1	Sao Tome	0	\N	5	São Tomé	\N	Sao Tome	0	\N	110	\N	88219	56166	88219	8	8	3	Sao Tome and Principe	STP	0
+137	0101000020E61000004B0DBAF3A27765C0A0DAE6FDDEAE2BC0	WSM	1	Samoa	\N	\N	\N	4	5	0	Location adjusted.	Admin-0 capital	3689793	WS	0	-13.8415450424	-171.738641609	1	Apia	0	\N	5	Apia	\N	Apia	0	\N	110	\N	61916	37708	0	8	7	3	Samoa	WSM	0
+138	0101000020E610000020958C2788072D406085186F2AF34140	MLT	1	Malta	\N	\N	\N	0	5	0	\N	Admin-0 capital	2562305	MT	0	35.8997324819	14.5147106513	1	Valletta	0	\N	5	Valletta	\N	Valletta	0	\N	110	\N	368250	6966	336174	10	5	3	Malta	MLT	0
+139	0101000020E61000006C25AA23FF5F524040DE3C8DB5AA1040	MDV	1	Maldives	\N	\N	\N	0	5	1	\N	Admin-0 capital	3174186	MV	0	4.16670818981	73.499947468	1	Male	0	\N	5	Malé	\N	Male	0	\N	110	\N	112927	103693	0	9	9	3	Maldives	MDV	0
+140	0101000020E6100000A8CDF7B7729A414090D60EBC45C73F40	ISR	1	Israel	Jerusalem	\N	De facto capita	0	0	0	\N	Admin-0 capital	281184	IL	0	31.7784078156	35.2066259346	1	Jerusalem	0	\N	3.7	Jerusalem	\N	Jerusalem	0	\N	110	\N	1029300	801000	1072567	12	11	3	Israel	IS1	0
+141	0101000020E6100000902907B9458437C02078497159D52D40	CPV	1	Cape Verde	\N	\N	\N	0	5	0	\N	Admin-0 capital	3374333	CV	0	14.9166980173	-23.516688885	1	Praia	0	\N	5	Praia	\N	Praia	0	\N	110	\N	113364	88859	89205	9	8	3	Cape Verde	CPV	0
+142	0101000020E610000094680B1E675653C0403EFA0D59153940	BHS	1	The Bahamas	\N	\N	\N	0	5	0	\N	Admin-0 capital	3571824	BS	0	25.0833901154	-77.3500437843	1	Nassau	0	\N	5	Nassau	\N	Nassau	0	\N	110	\N	227940	160966	0	10	9	3	Bahamas, The	BHS	0
+143	0101000020E6100000585C57E4EDAE4040486F6AA755954140	CYP	1	Cyprus	\N	\N	Capital of both	0	5	0	\N	Admin-0 capital	146268	CY	0	35.1666764517	33.3666348864	1	Nicosia	0	\N	5	Nicosia	\N	Nicosia	0	\N	110	\N	224300	200452	222985	10	10	3	Cyprus	CYP	0
+144	0101000020E61000000D36908310D96540D066820066A644C0	NZL	1	New Zealand	Manawatu-Wanganui	\N	\N	0	0	0	\N	Admin-0 capital	2144168	NZ	8	-41.29998785369	174.78326585928	1	Wellington	0	\N	4	Wellington	\N	Wellington	0	\N	110	Wellington metropolitan area	393400	393400	0	10	9	3	New Zealand	NZL	0
+145	0101000020E6100000209A6FC046765A40B0288CA807093540	VNM	1	Vietnam	Thái Nguyên	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	1581130	VN	5	21.0333272491	105.8500142	1	Hanoi	1	Hh Noi	4	Hanoi	H	Hanoi	0	\N	200	\N	4378000	1431270	5466347	12	12	2	Vietnam	VNM	0
+146	0101000020E6100000C0E5969F646E4040C8A00F84EFF64340	TUR	1	Turkey	Ankara	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	323786	TR	5	39.9272385855	32.864391641	1	Ankara	1	Ankara	4	Ankara	\N	Ankara	0	\N	200	\N	3716000	3307379	3267576	12	12	2	Turkey	TUR	0
+147	0101000020E6100000704AE9FAD4143340C8581DF83FC04740	HUN	1	Hungary	Budapest	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	3054643	HU	6	47.5000063264	19.0833206774	1	Budapest	1	Budapest	4.7	Budapest	\N	Budapest	0	\N	200	\N	1679000	1679000	1718895	12	12	2	Hungary	HUN	1
+148	0101000020E6100000F042DBE3311A464060746DA69EB62E40	YEM	1	Yemen	Amanat Al Asimah	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	71137	YE	6	15.3547332957	44.2065933826	1	Sanaa	1	Sana'a'	4	Sanaa	Sana'a'	Sanaa	0	\N	200	\N	2008000	1835853	1742507	12	12	2	Yemen	YEM	0
+149	0101000020E61000001003839416193A40480A3C7DB8374640	ROU	1	Romania	Bucharest	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	683506	RO	6	44.4333718049	26.099946654	1	Bucharest	1	Bucuresti	4	Bucharest	\N	Bucharest	0	Bucuresti	200	\N	1942000	1742194	1636574	12	12	2	Romania	ROU	1
+150	0101000020E6100000489BDE8026264240788838E040C04040	SYR	1	Syria	Damascus	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	170654	SY	6	33.5000339956	36.299995889	1	Damascus	1	Dimashq	4.7	Damascus	Dimashq	Damascus	0	\N	200	\N	2466000	2466000	3344577	12	12	2	Syria	SYR	0
+151	0101000020E610000080F2C6F62A4B22C010D3F5F1C15C4340	PRT	1	Portugal	Lisboa	\N	\N	4	0	0	Location adjusted. Changed scale rank.	Admin-0 capital	2267057	PT	6	38.7227228779	-9.14486630549	1	Lisbon	1	Lisboa	4	Lisbon	\N	Lisbon	0	Lisboa	200	\N	2812000	517802	1795582	12	11	2	Portugal	PRT	1
+152	0101000020E6100000A07E30392044404060A603A3172E2F40	SDN	1	Sudan	Khartoum	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	379252	SD	5	15.5880782257	32.5341792386	1	Khartoum	1	Al-Khartum	4	Khartoum	Al-Khartum	Khartoum	0	\N	200	\N	4754000	1974647	2325931	12	12	2	Sudan	SDN	0
+153	0101000020E61000002090163AFE7E254070DA83DE95F54D40	NOR	1	Norway	Oslo	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	3143244	NO	7	59.9166902864	10.749979206	1	Oslo	1	Oslo	4	Oslo	\N	Oslo	0	\N	200	\N	835000	580000	701804	11	11	2	Kingdom of Norway	NOR	1
+154	0101000020E610000060CA607280FF3440200054C83F204A40	POL	1	Poland	Masovian	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	756135	PL	5	52.2500006298	20.9999995511	1	Warsaw	1	Warszawa	4	Warsaw	\N	Warsaw	0	Warszawa	200	\N	1707000	1702139	2012431	12	12	2	Poland	POL	1
+155	0101000020E6100000989BC1F82C705F4050A2ACBABC824340	PRK	1	North Korea	P'yongyang	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	1871859	KP	6	39.0194386994	125.754690714	1	Pyongyang	1	P'yongyang	4.7	Pyongyang	P'yongyang	Pyongyang	0	\N	200	\N	3300000	2498797	2483216	12	12	2	Korea, North	PRK	0
+156	0101000020E6100000F8FD6D4319A2434000B80E6838311BC0	TZA	1	Tanzania	Dar-Es-Salaam	\N	De facto capita	5	0	0	Changed scale rank.	Admin-0 capital	160263	TZ	5	-6.80001259474	39.2683418363	1	Dar es Salaam	1	Dar es Salaam	4	Dar es Salaam	\N	Dar es Salaam	0	\N	200	\N	2930000	2698652	2757835	12	12	2	United Republic of Tanzania	TZA	0
+157	0101000020E61000000086E839DF0019C038D65A82E1AA4A40	IRL	1	Ireland	Dublin	\N	\N	0	0	0	\N	Admin-0 capital	2964574	IE	8	53.333061136	-6.24890568178	1	Dublin2	1	Dublin	4	Dublin	\N	Dublin	0	\N	200	\N	1059000	968976	22478	12	11	2	Ireland	IRL	1
+158	0101000020E610000020B7BF176D9925C000E6F9B021421940	LBR	1	Liberia	Montserrado	\N	\N	0	0	0	\N	Admin-0 capital	2274895	LR	8	6.31055665987	-10.8047516291	1	Monrovia	1	Monrovia	4	Monrovia	\N	Monrovia	0	\N	200	\N	1041000	785662	806416	12	11	2	Liberia	LBR	0
+159	0101000020E6100000DC1321A5AC6C5940800D691B51590940	MYS	1	Malaysia	Selangor	\N	Official and le	0	0	0	\N	Admin-0 capital	1735161	MY	6	3.1666658721	101.699983275	1	Kuala Lumpur	1	Kuala Lumpur	4	Kuala Lumpur	\N	Kuala Lumpur	0	\N	200	\N	1448000	1448000	2667990	12	12	2	Malaysia	MYS	1
+160	0101000020E610000018B342A46E9754C08050119447223740	CUB	1	Cuba	Ciudad de la Habana	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	3553478	CU	6	23.1319588409	-82.3641821713	1	Havana	1	La Habana	4	Havana	La Habana	Havana	0	\N	200	\N	2174000	1990917	1930305	12	12	2	Cuba	CUB	0
+161	0101000020E6100000A0EA83DA95ED2C40C83F988CEA0A4940	CZE	1	Czech Republic	Prague	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	4548393	CZ	7	50.0833370149	14.4659797757	1	Prague	1	Praha	4.7	Prague	\N	Prague	0	Praha	200	\N	1162000	2087	1088042	12	4	2	Czech Republic	CZE	1
+162	0101000020E610000048D0C635F9FC474000C8A056255F3D40	KWT	1	Kuwait	Al Kuwayt	\N	\N	5	5	0	Changed scale rank.	Admin-0 capital	285787	KW	8	29.36971763	47.9783011462	1	Kuwait	1	Al Kuwayt (Kuwait City)	4	Kuwait	Al Kuwayt|Kuwait City	Kuwait	0	\N	200	\N	2063000	60064	1682968	12	8	2	Kuwait	KWT	0
+163	0101000020E61000002861FEDFBA7951C03046E837D6783240	DOM	1	Dominican Republic	Distrito Nacional	\N	\N	5	5	0	Changed scale rank.	Admin-0 capital	3668373	DO	8	18.4700728546	-69.9000850847	1	Santo Domingo	1	Santo Domingo	4	Santo Domingo	\N	Santo Domingo	0	\N	200	\N	2154000	2873	3322037	12	4	2	Dominican Republic	DOM	0
+164	0101000020E6100000EFAF36701AFDCBBF004EEB5D3A351640	GHA	1	Ghana	Greater Accra	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	2306104	GH	6	5.55003460583	-0.21671574035	1	Accra	1	Accra	4	Accra	\N	Accra	0	\N	200	\N	2121000	1963264	2334371	12	12	2	Ghana	GHA	0
+165	0101000020E6100000C0AE4B802A5C2A40D866CD703D724040	LBY	1	Libya	Tajura' wa an Nawahi al Arba	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	-1	LY	7	32.8925000194	13.1800117581	1	Tripoli1	1	Tarabulus	4	Tripoli	\N	Tripoli	0	\N	200	\N	2189000	229398	1149981	12	10	2	Libya	LBY	0
+166	0101000020E6100000B0DFBFFB4F62414020DE2AEC7C0A4040	ISR	0	Israel	Tel Aviv	1	While Jerulsale	4	0	0	Changed scale rank.	Admin-0 capital alt	293394	IL	8	32.0799914744	34.7700117582	1	Tel Aviv-Yafo	1	Tel Aviv-Yafo	4	Tel Aviv-Yafo	Tel Aviv-Jaffa	Tel Aviv-Yafo	0	\N	200	\N	3112000	378358	2306851	12	10	2	Israel	IS1	0
+167	0101000020E610000090CA4F61A3EE3840184F5E9FB8164E40	FIN	1	Finland	Southern Finland	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	658225	FI	7	60.175563374	24.9341263415	1	Helsinki	1	Helsinki	4	Helsinki	\N	Helsinki	0	\N	200	\N	1115000	558457	762958	12	11	2	Finland	FIN	1
+168	0101000020E6100000A0C20228821F294038950AF41AD74B40	DNK	1	Denmark	Hovedstaden	\N	\N	0	0	1	\N	Admin-0 capital	2618425	DK	8	55.6785641904	12.5634857473	1	Copenhagen	1	K	4	København	\N	Kobenhavn	0	Copenhagen	200	\N	1085000	1085000	1038288	12	12	2	Denmark	DNK	1
+169	0101000020E610000000739681002B10C0C0195561AB491540	CIV	1	Ivory Coast	Lagunes	\N	De facto, admin	5	0	0	Changed scale rank.	Admin-0 capital	2293538	CI	8	5.31999696749	-4.04004825989	1	Abidjan	1	Abidjan	4	Abidjan	\N	Abidjan	0	\N	200	\N	3802000	3190395	3181637	12	12	2	Ivory Coast	CIV	0
+170	0101000020E6100000589599F680F547C0609659EC12902FC0	BRA	1	Brazil	Distrito Federal	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	3469058	BR	1	-15.7833402315	-47.9160522884	1	Brasilia	1	Brasglia	3.7	Brasília	Brasilia	Brasilia	0	\N	200	\N	3716996	2562963	1772679	12	12	2	Brazil	BRA	0
+171	0101000020E6100000001693DA52531140006757E5E96A4940	BEL	1	Belgium	Brussels	\N	\N	0	5	0	\N	Admin-0 capital	2800866	BE	8	50.8333170767	4.3333166083	1	Brussels	1	Bruxelles-Brussel	4.7	Brussels	Bruxelles-Brussel	Brussels	0	\N	200	\N	1743000	1019022	1490164	12	12	2	Belgium	BEL	1
+172	0101000020E6100000B011F848069A564050E90DF799B93740	BGD	1	Bangladesh	Dhaka	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	1185241	BD	2	23.7230597117	90.4085794667	1	Dhaka	1	Dhaka	4	Dhaka	\N	Dhaka	0	\N	200	\N	12797394	7000940	14995538	14	13	2	Bangladesh	BGD	0
+173	0101000020E610000060FE08C607772A40203737CA34AC21C0	AGO	1	Angola	Luanda	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	2240449	AO	6	-8.83828611363	13.2344270413	1	Luanda	1	Luanda	4	Luanda	\N	Luanda	0	\N	200	\N	5172900	1951272	1951272	13	12	2	Angola	AGO	0
+174	0101000020E61000008061EFE48B63084098A783DEEB614240	DZA	1	Algeria	Alger	\N	\N	5	5	0	Changed scale rank.	Admin-0 capital	2507480	DZ	5	36.763064798	3.05055252952	1	Algiers	1	El Djazasr	4	Algiers	El Djazacr	Algiers	0	\N	200	\N	3354000	1977663	3332619	12	12	2	Algeria	DZA	0
+175	0101000020E6100000E8920CF78A0A584020721B6B09C93040	MMR	0	Myanmar	Yangon	\N	Former capital	5	0	0	Changed scale rank.	Admin-0 capital	1298824	MM	5	16.7833541046	96.1666776113	1	Rangoon	1	Yangon	4	Rangoon	Yangon	Rangoon	0	\N	200	\N	4088000	3301820	3124090	12	12	2	Myanmar	MMR	0
+176	0101000020E610000070D4A7E4B29A5EC0E8DD9C0075E24240	USA	0	United States of America	California	\N	\N	0	0	0	\N	Populated place	5391959	US	1	37.7400077505	-122.459977663	1	San Francisco1	1	San Francisco-Oakland	2.7	San Francisco	San Francisco-Oakland	San Francisco	0	\N	300	\N	3450000	732072	27400	12	11	1	United States	USA	1
+177	0101000020E6100000A84D91FF193F5AC0D02FD279DDDE4340	USA	0	United States of America	Colorado	\N	\N	5	0	0	Changed scale rank.	Admin-1 capital	5419384	US	1	39.7391880484	-104.984015952	1	Denver	1	Denver-Aurora	3.7	Denver	Denver-Aurora	Denver	0	\N	300	\N	2313000	1548599	1521278	12	12	1	United States	USA	0
+178	0101000020E6100000C450051AE2D557C0A06A745D69D23D40	USA	0	United States of America	Texas	\N	\N	5	0	0	Changed scale rank.	Populated place	4699066	US	1	29.8199743846	-95.3399792905	1	Houston	1	Houston	3	Houston	\N	Houston	0	\N	300	\N	4459000	3647574	3607616	12	12	1	United States	USA	0
+179	0101000020E6100000A8C88DA2770E54C0F028DE6020CA3940	USA	0	United States of America	Florida	\N	\N	0	0	0	\N	Populated place	4164138	US	1	25.7876106964	-80.2241060808	1	Miami	1	Miami	2.1	Miami	\N	Miami	0	\N	300	\N	5585000	382894	1037811	13	10	1	United States	USA	1
+180	0101000020E61000008811D2A6B81955C0A89DE6A77DEA4040	USA	0	United States of America	Georgia	\N	\N	0	0	0	\N	Admin-1 capital	4180439	US	1	33.830013854	-84.3999493833	1	Atlanta	1	Atlanta	3	Atlanta	\N	Atlanta	0	\N	300	\N	4506000	422908	2874096	12	10	1	United States	USA	1
+181	0101000020E610000048C319C820F055C0105357E57CEA4440	USA	0	United States of America	Illinois	\N	\N	0	0	0	\N	Populated place	4887398	US	1	41.8299906607	-87.7500549741	1	Chicago	1	Chicago	3	Chicago	\N	Chicago	0	\N	300	\N	8990000	2841952	3635101	13	12	1	United States	USA	1
+182	0101000020E6100000C075499ED0BA50C0405E1BEE81012540	VEN	1	Venezuela	Distrito Capital	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	3646738	VE	6	10.5009985544	-66.9170371924	1	Caracas	1	Caracas	3	Caracas	\N	Caracas	0	\N	300	\N	2985000	1815679	2764555	12	12	1	Venezuela	VEN	1
+183	0101000020E61000007050F034C2833E403025B057B8374940	UKR	1	Ukraine	Kiev	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	703448	UA	5	50.433367329	30.5166279691	1	Kiev	1	Kyiv	3.7	Kiev	Kyiv	Kiev	0	\N	300	\N	2709000	1662508	1611692	12	12	1	Ukraine	UKR	0
+184	0101000020E610000000B4CD6F96A34B4040B93D8D603B3940	ARE	0	United Arab Emirates	Dubay	\N	\N	1	0	0	Name changed.	Admin-1 capital	292223	AE	8	25.2299961538	55.2799743234	1	Dubayy	1	Dubayy	3.7	Dubai	\N	Dubai	1	Dubayy	300	\N	1379000	1137347	1166878	12	12	1	United Arab Emirates	ARE	1
+185	0101000020E6100000B8CA614CC05251406855F49B25A84440	UZB	1	Uzbekistan	Tashkent	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	1512569	UZ	6	41.311701883	69.2949328195	1	Tashkent	1	Tashkent	3.7	Tashkent	\N	Tashkent	0	\N	300	\N	2184000	1978028	2806287	12	12	1	Uzbekistan	UZB	0
+186	0101000020E61000007F1E71477D7B0DC0B85691D273334440	ESP	1	Spain	Comunidad de Madrid	\N	\N	0	0	0	\N	Admin-0 capital	3117735	ES	3	40.4000262645	-3.683351686	1	Madrid	1	Madrid	3	Madrid	\N	Madrid	0	\N	300	\N	5567000	50437	3673427	13	8	1	Kingdom of Spain	ESP	1
+187	0101000020E6100000C0C94B82638F1840884DFD86E11A4740	CHE	0	Switzerland	Genève	\N	\N	4	0	0	Changed scale rank.	Admin-1 capital	2660646	CH	7	46.2100075471	6.14002803409	1	Geneva	0	\N	3.7	Geneva	\N	Geneva	0	\N	300	\N	1240000	192385	508284	12	9	1	Switzerland	CHE	1
+188	0101000020E61000006002BF676B18324018AFCD7625AD4D40	SWE	1	Sweden	Stockholm	\N	\N	4	0	0	Location adjusted.	Admin-0 capital	2673730	SE	7	59.3507599543	18.0973347328	1	Stockholm	1	Stockholm	3	Stockholm	\N	Stockholm	0	\N	300	\N	1264000	1253309	0	12	12	1	Sweden	SWE	1
+189	0101000020E6100000748D35D3F0205940004B85F1FE802B40	THA	1	Thailand	Bangkok Metropolis	\N	\N	0	0	0	\N	Admin-0 capital	1609350	TH	5	13.7499992055	100.516644652	1	Bangkok	1	Krung Thep	3	Bangkok	Krung Thep	Bangkok	0	\N	300	\N	6704000	5104476	5082758	13	13	1	Thailand	THA	1
+190	0101000020E610000094C82A19544353C00068E511961728C0	PER	1	Peru	Lima	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	3936456	PE	5	-12.0480126761	-77.0500620948	1	Lima2	1	Lima	3	Lima	\N	Lima	0	\N	300	\N	8012000	6758234	6068380	13	13	1	Peru	PER	0
+191	0101000020E6100000407F73949E7931C080ED1E8B806F2D40	SEN	1	Senegal	Dakar	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	2253354	SN	8	14.715831725	-17.4731301284	1	Dakar	1	Dakar	3	Dakar	\N	Dakar	0	\N	300	\N	2604000	2476400	2470140	12	12	1	Senegal	SEN	0
+192	0101000020E6100000407586312F073C40000A3E87082B3AC0	ZAF	0	South Africa	Gauteng	\N	\N	4	0	0	Changed feature class.	Admin-0 capital	993800	ZA	3	-26.17004474	28.0300097236	1	Johannesburg	1	Johannesburg	3	Johannesburg	\N	Johannesburg	0	\N	300	\N	3435000	2026469	3852246	12	12	1	South Africa	ZAF	1
+193	0101000020E6100000004C8CA0A5A8134088742E890B2D4A40	NLD	1	Netherlands	Noord-Holland	\N	De facto capita	0	0	0	\N	Admin-0 capital	2759794	NL	8	52.3499686881	4.91664017601	1	Amsterdam	1	Amsterdam	3.7	Amsterdam	\N	Amsterdam	0	\N	300	\N	1031000	741636	962488	12	11	1	Kingdom of the Netherlands	NLD	1
+194	0101000020E6100000C01C9A1E27791EC020D753C80BCD4040	MAR	0	Morocco	Grand Casablanca	\N	\N	4	0	0	Changed scale rank.	Admin-1 capital	2553604	MA	5	33.5999762156	-7.61636743309	1	Casablanca	1	Dar-el-Beida	3.7	Casablanca	Dar-el-Beida	Casablanca	0	\N	300	\N	3181000	3144909	3718797	12	12	1	Morocco	MAR	1
+195	0101000020E6100000C84032B6DBBF5F409061A2E3BDC84240	KOR	1	South Korea	Seoul	\N	\N	0	0	0	\N	Admin-0 capital	1835848	KR	3	37.5663490998	126.999730997	1	Seoul	1	Seoul	3	Seoul	\N	Seoul	0	\N	300	\N	9796000	9796000	12018058	13	13	1	Korea, South	KOR	1
+196	0101000020E6100000007BD9C3BC3E5E40C059BF5E53362D40	PHL	1	Philippines	Metropolitan Manila	\N	Official, de fa	0	0	0	\N	Admin-0 capital	1701668	PH	5	14.6041589548	120.982217162	1	Manila	1	Manila	2.7	Manila	\N	Manila	0	\N	300	\N	11100000	3077575	2381280	14	12	1	Philippines	PHL	1
+197	0101000020E61000003C56055A3E1559C0A0E7365304AC3940	MEX	0	Mexico	Nuevo León	\N	\N	5	0	0	Changed scale rank.	Admin-1 capital	3995465	MX	2	25.6699951365	-100.329984784	1	Monterrey	1	Monterrey	3.7	Monterrey	\N	Monterrey	0	\N	300	\N	3712000	1122874	3225636	12	12	1	Mexico	MEX	0
+198	0101000020E6100000608FCBBB98CC2A40D8EF42B70A434A40	DEU	1	Germany	Berlin	\N	\N	0	0	0	\N	Admin-0 capital	2950159	DE	3	52.5218186636	13.4015486233	1	Berlin	1	Berlin	2.7	Berlin	\N	Berlin	0	\N	300	\N	3406000	3094014	3013258	12	12	1	Germany	DEU	1
+199	0101000020E610000034E2FE02ADE45540A83F0C674AE74540	CHN	0	China	Xinjiang Uygur	\N	\N	5	0	0	Changed scale rank.	Admin-1 capital	1529102	CN	1	43.8050122264	87.5750056549	1	Urumqi	1	Cramqi (Wulumqi)	3.7	Ürümqi	rumqi|Wulumqi	Urumqi	0	\N	300	\N	2151000	1508225	2044401	12	12	1	China	CHN	0
+200	0101000020E610000044A980515B045A40C08222A504AC3E40	CHN	0	China	Sichuan	\N	\N	5	0	0	Changed scale rank.	Admin-1 capital	1815286	CN	1	30.6700000193	104.07001949	1	Chengdu	1	Chengdu	3	Chengdu	\N	Chengdu	0	\N	300	\N	4123000	3950437	11622929	12	12	1	China	CHN	0
+201	0101000020E610000068B4DB90A9EE6040D0FB75EA40604140	JPN	0	Japan	Osaka	\N	\N	4	5	0	Changed feature to Admin-0 region capital.	Admin-1 region capital	1853909	JP	2	34.7500352163	135.460144815	1	Osaka	1	Osaka-Kobe	3	Ōsaka	Osaka-Kobe	Osaka	0	\N	300	\N	11294000	2592413	9630783	14	12	1	Japan	JPN	1
+202	0101000020E6100000A0A368F244A02E40C0D78C19A54F11C0	COD	1	Congo (Kinshasa)	Kinshasa City	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	2314302	CD	3	-4.32972410189	15.3149718818	1	Kinshasa	1	Kinshasa	3	Kinshasa	\N	Kinshasa	0	\N	300	\N	7843000	5565703	4738154	13	13	1	Congo (Kinshasa)	COD	0
+203	0101000020E6100000CC7EFF78CC4C5340808EA11B9B993C40	IND	1	India	Delhi	\N	\N	0	0	0	\N	Admin-0 capital	1261481	IN	1	28.6000230092	77.1999800201	1	New Delhi	0	\N	2.1	New Delhi	\N	New Delhi	0	\N	300	\N	317797	317797	8060107	10	10	1	India	IND	1
+204	0101000020E6100000148C8051B763534000F90640A2F12940	IND	0	India	Karnataka	\N	\N	3	0	0	Name changed. Changed scale rank.	Admin-1 capital	1277333	IN	1	12.9699951365	77.5600097238	1	Bangalore	1	Bangalore	3.7	Bangalore	Bengaluru	Bangalore	1	\N	300	\N	6787000	5104047	8102712	13	13	1	India	IND	0
+205	0101000020E6100000C06523683BBB3740B04A57651DFE4240	GRC	1	Greece	Attiki	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	264371	GR	6	37.9833262319	23.7333210843	1	Athens2	1	Athnnai	3.7	Athens	Athinai	Athens	0	Athenai	300	\N	3242000	729137	112572	12	11	1	Greece	GRC	1
+206	0101000020E6100000904DB2872A324640A8738A9898AB4040	IRQ	1	Iraq	Baghdad	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	98182	IQ	5	33.3386484975	44.3938687732	1	Baghdad	1	Baghdad	3.7	Baghdad	\N	Baghdad	0	\N	300	\N	5054000	5054000	4959534	13	13	1	Iraq	IRQ	0
+207	0101000020E610000050E8BFFB5959434040E47A1A0D122240	ETH	1	Ethiopia	Addis Ababa	\N	\N	5	5	0	Changed scale rank.	Admin-0 capital	344979	ET	3	9.03331036268	38.700004434	1	Addis Ababa	1	Addis Ababa	3	Addis Ababa	\N	Addis Ababa	0	\N	300	\N	3100000	2757729	3013653	12	12	1	Ethiopia	ETH	0
+208	0101000020E6100000E0C6B52411B64940F80E87FB41D64140	IRN	1	Iran	Tehran	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	112931	IR	5	35.6719427684	51.4243440336	1	Tehran	1	Tehran	3	Tehran	\N	Tehran	0	\N	300	\N	7873000	7153309	8209012	13	13	1	Iran	IRN	0
+209	0101000020E6100000500E5AE6E8C75EC030FF96133FA34840	CAN	0	Canada	British Columbia	\N	\N	5	0	0	Changed scale rank.	Populated place	6173331	CA	2	49.2734165841	-123.121644218	1	Vancouver2	1	Vancouver	2.1	Vancouver	\N	Vancouver	0	\N	300	\N	2313328	603502	482002	12	11	1	Canada	CAN	0
+210	0101000020E6100000A0A56B8001DB53C0280CD9B3D8D94540	CAN	0	Canada	Ontario	\N	\N	0	0	0	\N	Admin-1 capital	6167865	CA	2	43.6999798778	-79.4200207944	1	Toronto	1	Toronto	2.1	Toronto	\N	Toronto	0	\N	300	\N	5213000	3934421	3749229	13	12	1	Canada	CAN	1
+211	0101000020E6100000182EE81122334DC078A3C402DF4C41C0	ARG	1	Argentina	Ciudad de Buenos Aires	\N	\N	0	0	0	\N	Admin-0 capital	3435910	AR	3	-34.6025016085	-58.3975313737	1	Buenos Aires	1	Buenos Aires	2.1	Buenos Aires	\N	Buenos Aires	0	\N	300	\N	12795000	10929146	10271457	14	14	1	Argentina	ARG	1
+212	0101000020E610000040D8D5A69A4B5140686F50AB62424140	AFG	1	Afghanistan	Kabul	\N	\N	5	0	0	Changed scale rank.	Admin-0 capital	1138958	AF	5	34.5166902863	69.1832600493	1	Kabul	1	Kabul	3.7	Kabul	\N	Kabul	0	\N	300	\N	3277000	3043532	3475519	12	12	1	Afghanistan	AFG	0
+213	0101000020E61000006097DB865C5D304080D8CEDCD9194840	AUT	1	Austria	Wien	\N	\N	0	0	0	\N	Admin-0 capital	2761369	AT	7	48.2000152782	16.3666389554	1	Vienna	1	Wien	3.7	Vienna	\N	Vienna	0	Wien	300	\N	2400000	1731000	1480886	12	12	1	Austria	AUT	1
+214	0101000020E6100000DC267C64231F6240C07A2E06B7E842C0	AUS	0	Australia	Victoria	\N	\N	4	0	0	Changed feature class. Changed scale rank.	Admin-1 capital	2158177	AU	3	-37.8200313123	144.975016235	1	Melbourne2	1	Melbourne	3	Melbourne	\N	Melbourne	0	\N	300	\N	4170000	93625	1805353	12	8	1	Australia	AUS	1
+215	0101000020E610000015F9C5925F645E40F0C5925F2C093940	TWN	1	Taiwan	Taipei City	\N	\N	1	0	0	Corrected coordinates.	Admin-0 capital	1668341	TW	8	25.03583333333	121.56833333333	1	Taipei	1	Taipei	3.7	Taipei	\N	Taipei	0	\N	300	\N	6900273	2618772	5698241	13	12	1	Taiwan	TWN	1
+216	0101000020E61000001C6F92B76AD865400C7913108D6C42C0	NZL	0	New Zealand	Auckland	\N	\N	4	0	0	Changed scale rank.	Admin-1 capital	2193733	NZ	8	-36.84805489493	174.76302698708	1	Auckland	1	Auckland	3	Auckland	\N	Auckland	0	\N	300	Auckland metropolitan area	1377200	395982	0	12	10	1	New Zealand	NZL	1
+217	0101000020E6100000244B80AEA48B5DC078A1835EF7FE4040	USA	0	United States of America	California	\N	\N	0	0	0	\N	Populated place	5368361	US	1	33.9899782502	-118.179980511	1	Los Angeles1	1	Los Angeles-Long Beach-Santa Ana	2	Los Angeles	Los Angeles-Long Beach-Santa Ana	Los Angeles	0	\N	600	\N	12500000	3694820	142265	14	12	0	United States	USA	1
+218	0101000020E610000014EEE931BA4053C07019243264734340	USA	1	United States of America	District of Columbia	\N	\N	0	5	0	\N	Admin-0 capital	4140963	US	1	38.8995493765	-77.0094185808	1	Washington, D.C.	1	Washington, D.C.	2.1	Washington, D.C.	Washington D.C.	Washington, D.C.	0	\N	600	\N	4338000	552433	2175991	12	11	0	United States	USA	1
+219	0101000020E61000004873727AD87E52C0B0CB6B133F604440	USA	0	United States of America	New York	\N	UN Headquarters	0	0	0	\N	Populated place	5128581	US	1	40.749979064	-73.9800169288	1	New York	1	New York-Newark	1.7	New York	New York-Newark	New York	0	\N	600	\N	19040000	8008278	9292603	14	13	0	United States	USA	1
+220	0101000020E610000004C039AD0161BEBF68B3D5963FC04940	GBR	1	United Kingdom	Westminster	\N	\N	0	5	0	\N	Admin-0 capital	2643743	GB	5	51.4999947297	-0.11672184386	1	London2	1	London	1.7	London	\N	London	0	\N	600	\N	8567000	7421209	326670	13	13	0	United Kingdom	GBR	1
+221	0101000020E61000009005ACF00F023D40A8FF9E46B08D4440	TUR	0	Turkey	Istanbul	\N	\N	0	0	0	\N	Admin-1 capital	745044	TR	5	41.1049961538	29.0100015856	1	Istanbul	1	Istanbul	3	Istanbul	\N	Istanbul	0	\N	600	\N	10061000	9945610	9651488	14	13	0	Turkey	TUR	1
+222	0101000020E610000050A1CD6FA96247408020412A8DA43840	SAU	1	Saudi Arabia	Ar Riyad	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	108410	SA	5	24.6408331492	46.7727416573	1	Riyadh	1	Ar-Riyadh	3.7	Riyadh	Ar-Riyadh	Riyadh	0	\N	600	\N	4465000	4205961	5148778	12	12	0	Saudi Arabia	SAU	1
+223	0101000020E6100000E0F530DCDB6E32406094502883F540C0	ZAF	1	South Africa	Western Cape	1	Legislative cap	4	0	0	Changed scale rank.	Admin-0 capital	3369157	ZA	3	-33.9200109672	18.4349881578	1	Cape Town	1	Cape Town	1.7	Cape Town	\N	Cape Town	0	\N	600	\N	3215000	2432858	2401318	12	12	0	South Africa	ZAF	1
+224	0101000020E61000003801A8B089CE4240288605AD86E04B40	RUS	1	Russia	Moskva	\N	\N	0	0	0	\N	Admin-0 capital	524901	RU	2	55.7521641226	37.6155228259	1	Moscow	1	Moskva	1.7	Moscow	\N	Moscow	0	Moskva	600	\N	10452000	10452000	10585385	14	14	0	Russia	RUS	1
+225	0101000020E6100000285FDCFD81C858C0F04D856EC3713340	MEX	1	Mexico	Distrito Federal	\N	\N	0	0	0	\N	Admin-0 capital	3530597	MX	2	19.4424424428	-99.1309882017	1	Mexico City	1	Ciudad de Mdxico	2.1	Mexico City	Ciudad de M	Mexico City	0	\N	600	\N	19028000	10811002	10018444	14	14	0	Mexico	MEX	1
+226	0101000020E61000007FEC18DADE1D0B40C07E617AE4C71940	NGA	0	Nigeria	Lagos	1	Former capital	4	0	0	Location adjusted. Changed scale rank.	Admin-0 capital alt	2332459	NG	2	6.44326165348	3.39153107121	1	Lagos	1	Lagos	2	Lagos	\N	Lagos	0	\N	600	\N	9466000	1536	6567892	13	3	0	Nigeria	NGA	1
+227	0101000020E61000004065A9996EF62840D0C3946FEEF24440	ITA	1	Italy	Lazio	\N	\N	0	0	0	\N	Admin-0 capital	3169070	IT	3	41.8959556265	12.4832584215	1	Rome	1	Rome	2.7	Rome	\N	Rome	0	\N	600	\N	3339000	35452	2050212	12	7	0	Italy	ITA	1
+228	0101000020E61000006016ADCAB9185D40E803D9B325F74340	CHN	1	China	Beijing	\N	\N	0	0	0	\N	Admin-0 capital	1816670	CN	1	39.9288922313	116.388285684	1	Beijing	1	Beijing	1.7	Beijing	\N	Beijing	0	\N	600	\N	11106000	7480601	9033231	14	13	0	China	CHN	1
+229	0101000020E6100000B05B377348684240FE2569369E80F4BF	KEN	1	Kenya	Nairobi	\N	\N	4	0	0	Changed scale rank.	Admin-0 capital	184745	KE	5	-1.28334674185	36.8166568591	1	Nairobi	1	Nairobi	2	Nairobi	\N	Nairobi	0	\N	600	\N	3010000	2750547	3400962	12	12	0	Kenya	KEN	1
+230	0101000020E6100000306102A0F5B45A4080EDB5759CB018C0	IDN	1	Indonesia	Jakarta Raya	\N	\N	0	0	0	\N	Admin-0 capital	1642911	ID	1	-6.17441770541	106.829437621	1	Jakarta	1	Jakarta	2.1	Jakarta	\N	Jakarta	0	\N	600	\N	9125000	8540121	9129613	13	13	0	Indonesia	IDN	1
+231	0101000020E6100000F4356863758552C080061BF4BA641240	COL	1	Colombia	Bogota	\N	\N	0	0	0	\N	Admin-0 capital	3688689	CO	5	4.59642356253	-74.0833439552	1	Bogota	1	Bogota	2.1	Bogota	Bogota	Bogota	0	\N	600	\N	7772000	6333661	5754084	13	13	0	Colombia	COL	1
+232	0101000020E6100000A0B6B9647E3F3F4040619DB9490D3E40	EGY	1	Egypt	Al Qahirah	\N	\N	0	5	0	\N	Admin-0 capital	360630	EG	3	30.0499603465	31.2499682197	1	Cairo	1	Al-Qahirah	1.7	Cairo	Al-Qahirah	Cairo	0	\N	600	\N	11893000	7734614	13720557	14	13	0	Egypt	EGY	1
+233	0101000020E610000038D4CBCFCF5B5E40303AA4F3E8373F40	CHN	0	China	Shanghai	\N	\N	0	0	0	\N	Admin-1 capital	1796236	CN	1	31.2164524526	121.436504678	1	Shanghai	1	Shanghai	2	Shanghai	\N	Shanghai	0	\N	600	\N	14987000	14608512	16803572	14	14	0	China	CHN	1
+234	0101000020E610000024E3D496FB776140A0455765EED74140	JPN	1	Japan	Tokyo	\N	De facto capita	0	0	0	\N	Admin-0 capital	1850147	JP	2	35.6850169058	139.751407429	1	Tokyo	1	Tokyo	1.7	Tokyo	\N	Tokyo	0	\N	600	\N	35676000	8336599	12945252	14	13	0	Japan	JPN	1
+235	0101000020E6100000548A1D08B936524060454B01D9043340	IND	0	India	Maharashtra	\N	\N	0	0	0	\N	Admin-1 capital	1275339	IN	1	19.0169903757	72.8569892974	1	Mumbai	1	Mumbai	1.7	Mumbai	\N	Mumbai	0	Bombay	600	\N	18978000	12691836	12426085	14	14	0	India	IND	1
+236	0101000020E610000080825C85AFA6024038254D8E2F6F4840	FRA	1	France	Île-de-France	\N	\N	0	0	0	\N	Admin-0 capital	2988507	FR	3	48.8666929312	2.33333532574	1	Paris	1	Paris	1.7	Paris	\N	Paris	0	\N	600	\N	9904000	11177	7142744	13	6	0	French Republic	FRA	1
+237	0101000020E6100000D8A2A5ADD0AA51C070B5724A5AB940C0	CHL	1	Chile	Región Metropolitana de Santiago	\N	Official, admin	4	0	0	Changed scale rank.	Admin-0 capital	3449741	CL	3	-33.4500138155	-70.6670408546	1	Santiago3	1	Santiago	2	Santiago	\N	Santiago	0	\N	600	\N	5720000	46611	3066651	13	7	0	Chile	CHL	1
+238	0101000020E61000008894E39AA7145640C0C1EBD4357F3640	IND	0	India	West Bengal	\N	\N	4	0	0	Name changed. Changed scale rank.	Admin-1 capital	1275004	IN	1	22.4949692983	88.3246756581	1	Calcutta	1	Kolkata	3.7	Kolkata	\N	Kolkata	1	Calcutta	600	\N	14787000	4631392	7783716	14	12	0	India	IND	0
+239	0101000020E6100000809F473E0D9D45C0004082CB4EEC36C0	BRA	0	Brazil	Rio de Janeiro	\N	\N	0	0	0	\N	Admin-1 capital	3451190	BR	1	-22.9250231742	-43.2250207942	1	Rio de Janeiro	1	Rio de Janeiro	1.7	Rio de Janeiro	\N	Rio de Janeiro	0	\N	600	\N	11748000	2010175	1821489	14	12	0	Brazil	BRA	1
+240	0101000020E6100000C839A76A405047C0C0F7031A868E37C0	BRA	0	Brazil	São Paulo	\N	\N	0	0	0	\N	Admin-1 capital	3448439	BR	1	-23.558679587	-46.6250199804	1	Sao Paolo	1	S	3	São Paulo	Sao Paulo|Sio Paulo	Sao Paulo	0	\N	600	\N	18845000	10021295	11522944	14	14	0	Brazil	BRA	1
+241	0101000020E6100000D0EC710DDDE562406094502883F540C0	AUS	0	Australia	New South Wales	\N	\N	4	0	0	Changed feature class.	Admin-1 capital	2147714	AU	3	-33.9200109672	151.185179809	1	Sydney1	1	Sydney	1.7	Sydney	\N	Sydney	0	\N	600	\N	4630000	3641422	2669348	12	12	0	Australia	AUS	1
+242	0101000020E610000020BA91E2A5F659400138A53D3CB8F43F	SGP	1	Singapore	\N	\N	\N	0	5	0	\N	Admin-0 capital	1880252	SG	0	1.29303346649	103.855820678	1	Singapore	1	Singapore	2.1	Singapore	\N	Singapore	0	\N	600	\N	5183700	3289529	3314179	13	12	0	Singapore	SGP	1
+243	0101000020E610000040CCCB4FB78B5C40D0DF70C0924E3640	HKG	0	Hong Kong S.A.R.	\N	\N	\N	0	0	0	\N	Admin-0 region capital	1819729	HK	0	22.304980895	114.185009317	1	Hong Kong	1	Hong Kong	3	Hong Kong	\N	Hong Kong	0	\N	600	\N	7206000	4551579	4549026	13	12	0	China	CHN	1
+\.
+
+
+--
+-- Data for Name: spatial_ref_sys; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.spatial_ref_sys (srid, auth_name, auth_srid, srtext, proj4text) FROM stdin;
+\.
+
+
+--
+-- Data for Name: geocode_settings; Type: TABLE DATA; Schema: tiger; Owner: postgres
+--
+
+COPY tiger.geocode_settings (name, setting, unit, category, short_desc) FROM stdin;
+\.
+
+
+--
+-- Data for Name: pagc_gaz; Type: TABLE DATA; Schema: tiger; Owner: postgres
+--
+
+COPY tiger.pagc_gaz (id, seq, word, stdword, token, is_custom) FROM stdin;
+\.
+
+
+--
+-- Data for Name: pagc_lex; Type: TABLE DATA; Schema: tiger; Owner: postgres
+--
+
+COPY tiger.pagc_lex (id, seq, word, stdword, token, is_custom) FROM stdin;
+\.
+
+
+--
+-- Data for Name: pagc_rules; Type: TABLE DATA; Schema: tiger; Owner: postgres
+--
+
+COPY tiger.pagc_rules (id, rule, is_custom) FROM stdin;
+\.
+
+
+--
+-- Data for Name: topology; Type: TABLE DATA; Schema: topology; Owner: postgres
+--
+
+COPY topology.topology (id, name, srid, "precision", hasz) FROM stdin;
+\.
+
+
+--
+-- Data for Name: layer; Type: TABLE DATA; Schema: topology; Owner: postgres
+--
+
+COPY topology.layer (topology_id, layer_id, schema_name, table_name, feature_column, feature_type, level, child_id) FROM stdin;
+\.
+
+
+--
+-- Name: ne_110m_populated_places_simple_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.ne_110m_populated_places_simple_id_seq', 243, true);
+
+
+--
+-- Name: topology_id_seq; Type: SEQUENCE SET; Schema: topology; Owner: postgres
+--
+
+SELECT pg_catalog.setval('topology.topology_id_seq', 1, false);
+
+
+--
+-- Name: ne_110m_populated_places_simple ne_110m_populated_places_simple_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ne_110m_populated_places_simple
+    ADD CONSTRAINT ne_110m_populated_places_simple_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
