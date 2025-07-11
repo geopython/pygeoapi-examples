@@ -88,7 +88,7 @@ minikube addons enable ingress
 
 You can check that ingress is running with the following command:
 
-    $ kubectl -n pygeoapi-demo get ingress
+    $ kubectl get ingress -n pygeoapi-demo
 
 In case your address is **not** `192.168.49.2`, you need update the IP address inside
 [./kustomization.yaml](./kustomization.yaml):
