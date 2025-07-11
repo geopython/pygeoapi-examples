@@ -14,7 +14,7 @@ namespace: pygeoapi-demo
 # this sample, in case wtou need to do so.
 images:
   - name: geopython/pygeoapi
-    newTag: 0.16.1
+    newTag: latest
 
   - name: postgis/postgis
     newTag: 16-3.4
@@ -32,3 +32,4 @@ patches:
         value:
           name: SAMPLE_CONFIG_PYGEOAPI_URL
           value: http://192.168.49.2
+          
