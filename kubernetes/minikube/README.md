@@ -60,34 +60,37 @@ following command:
     statefulset.apps/postgresql created
     ingress.networking.k8s.io/pygeoapi created
 
-You will then need to modify the IP address at which the pygeo instance is
-accessible.
-
-If you're running under Linux, you can get it with the following command:
-
-    $ kubectl -n pygeoapi-demo get ingress
-    NAME       CLASS   HOSTS   ADDRESS        PORTS   AGE
-    pygeoapi   nginx   *       192.168.49.2   80      56s
-
-In this example run your local pygeo instance will be accessible
-at `192.168.49.2`.
-
-If you're running under Mac, you'll need to run a [minikube tunnel][] in a
+If you want to run ingress with an external IP, you'll need to run a [minikube tunnel][] in a
 separate terminal:
 
-     minikube tunnel
-    ✅  Tunnel successfully started
+```bash
+minikube tunnel
+Status:	
+	machine: minikube
+	pid: 115758
+	route: 10.96.0.0/12 -> 192.168.49.2
+	minikube: Running
+	services: []
+    errors: 
+		minikube: no errors
+		router: no errors
+		loadbalancer emulator: no errors
+```
 
-    📌  NOTE: Please do not close this terminal as this process must stay alive for the tunnel to be accessible ...
+In this example run, your local pygeo instance will be accessible
+at `192.168.49.2`.
 
-    ❗  The service/ingress pygeoapi requires privileged ports to be exposed: [80 443]
-    🔑  sudo permission will be asked for it.
-    🏃  Starting tunnel for service pygeoapi.
-    Password:
+Enable ingress with:
 
-In this case, use `127.0.0.1` as the pygeoapi IP address.
+```bash
+minikube addons enable ingress
+```
 
-You need then to set that IP address inside
+You can check that ingress is running with the following command:
+
+    $ kubectl get ingress -n pygeoapi-demo
+
+In case your address is **not** `192.168.49.2`, you need update the IP address inside
 [./kustomization.yaml](./kustomization.yaml):
 
     [...]
@@ -102,7 +105,7 @@ You need then to set that IP address inside
               name: SAMPLE_CONFIG_PYGEOAPI_URL
               value: http://192.168.49.2
 
-Now regenerate and reapply the Kubernetes manifests:
+And then regenerate and reapply the Kubernetes manifests:
 
     $ kustomize build . | kubectl apply -f -
 
