@@ -33,6 +33,8 @@ services:
 
   pygeoapi:
     image: geopython/pygeoapi:latest
+    ports:
+      - 5000:80
 
     volumes:
       - ./my.config.yml:/pygeoapi/local.config.yml
