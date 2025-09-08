@@ -118,8 +118,8 @@ resources:
               data: tests/data/obs.csv
               id_field: id
               geometry:
-                  x_field: lat
-                  y_field: long
+                  x_field: long
+                  y_field: lat
 
     lakes:
         type: collection
