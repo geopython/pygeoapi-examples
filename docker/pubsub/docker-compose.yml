@@ -1,0 +1,17 @@
+services:
+  mqtt:
+    image: eclipse-mosquitto:2.0
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+      - "8884:8884"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+    
+  pygeoapi:
+    build:
+      context: .
+    ports:
+      - "5000:80"
+    depends_on:
+      - mqtt
