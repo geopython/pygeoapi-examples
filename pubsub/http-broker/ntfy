@@ -1,0 +1,4 @@
+#base-url: http://localhost:5003
+#base-url: http://http-broker
+message-size-limit: "100k"
+attachment-cache-dir: "/var/cache/ntfy/attachments"
