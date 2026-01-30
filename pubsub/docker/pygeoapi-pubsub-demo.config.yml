@@ -1,0 +1,112 @@
+server:
+    bind:
+        host: 0.0.0.0
+        port: 80
+    url: http://localhost:9888
+    mimetype: application/json; charset=UTF-8
+    encoding: utf-8
+    gzip: false
+    language: en-US
+    cors: true
+    pretty_print: true
+    limits:
+        default_items: 10
+        max_items: 10
+    map:
+        url: https://tile.openstreetmap.org/{z}/{x}/{y}.png
+        attribution: 'Map data &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    manager:
+        name: TinyDB
+        connection: /tmp/registration-api-process-manager.db
+        output_dir: /tmp/
+
+#pubsub:
+#    name: MQTT
+#    broker:
+#        url: mqtt://pygeoapi-pubsub-demo:pygeoapi-pubsub-demo@mqtt-broker:1883
+
+pubsub:
+    name: HTTP
+    broker:
+        url: http://http-broker
+
+
+logging:
+    level: DEBUG
+    #logfile: /tmp/pygeoapi.log
+
+metadata:
+    identification:
+        title: pygeoapi Pub/Sub demo
+        description: pygeoapi Pub/Sub demo
+        keywords:
+            - Pub/Sub
+        keywords_type: theme
+        terms_of_service: https://creativecommons.org/licenses/by/4.0
+        url: https://pygeoapi.io
+    license:
+        name: CC-BY 4.0 license
+        url: https://creativecommons.org/licenses/by/4.0
+    provider:
+        name: OSGeo
+        url: https://osgeo.org
+    contact:
+        name: Kralidis, Tom
+        position: staff
+        address: 4905 Dufferin Street
+        city: Toronto
+        stateorprovince: Ontario
+        postalcode: M3H 5T4
+        country: Canada
+        phone: null
+        fax: null
+        email: you@example.org
+        url: https://kralidis.ca
+        hours: Hours of Service
+        instructions: During hours of service.  Off on weekends.
+        role: pointOfContact
+
+resources:
+    canada-metadata:
+        type: collection
+        title:
+            en: Open Canada sample data
+            fr: Exemple de donn\u00e9es Canada Ouvert
+        description:
+            en: Sample metadata records from open.canada.ca
+            fr: Exemples d'enregistrements de m\u00e9tadonn\u00e9es sur ouvert.canada.ca
+        keywords:
+            en:
+                - canada
+                - open data
+            fr:
+                - canada
+                - donn\u00e9es ouvertes
+        links:
+            - type: text/html
+              rel: canonical
+              title: information
+              href: https://open.canada.ca/en/open-data
+              hreflang: en-CA
+            - type: text/html
+              rel: alternate
+              title: informations
+              href: https://ouvert.canada.ca/fr/donnees-ouvertes
+              hreflang: fr-CA
+        extents:
+            spatial:
+                bbox: [-180,-90,180,90]
+                crs: http://www.opengis.net/def/crs/OGC/1.3/CRS84
+        providers:
+            - type: record
+              name: TinyDBCatalogue
+              data: /pygeoapi/tests/data/open.canada.ca/sample-records.tinydb
+              id_field: externalId
+              time_field: created
+              title_field: title
+              editable: true
+
+    hello-world:
+        type: process
+        processor:
+            name: HelloWorld
