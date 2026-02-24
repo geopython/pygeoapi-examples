@@ -30,6 +30,10 @@ pubsub:
     broker:
         url: http://http-broker
 
+#pubsub:
+#    name: Kafka
+#    broker:
+#        url: tcp://kafka-broker:9092
 
 logging:
     level: DEBUG

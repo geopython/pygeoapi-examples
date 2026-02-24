@@ -57,6 +57,14 @@ services:
       - pygeoapi-pubsub-demo-net
     <<: *logging
 
+  kafka-broker:
+    container_name: kafka-broker
+    image: apache/kafka:latest
+    restart: unless-stopped
+    networks:
+      - pygeoapi-pubsub-demo-net
+    <<: *logging
+
   pygeoapi-pubsub-demo-api:
     container_name: pygeoapi-pubsub-demo-api
     build:

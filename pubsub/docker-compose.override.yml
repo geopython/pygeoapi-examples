@@ -38,3 +38,6 @@ services:
   http-broker:
     ports:
       - 5003:80
+  kafka-broker:
+    ports:
+      - 9092:9092
