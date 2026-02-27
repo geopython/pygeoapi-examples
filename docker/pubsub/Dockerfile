@@ -35,7 +35,7 @@ ENV PYGEOAPI_CONFIG=/pygeoapi/local.config.yml
 ENV PYGEOAPI_OPENAPI=/pygeoapi/local.openapi.yml
 ENV PYGEOAPI_ASYNCAPI=/pygeoapi/local.asyncapi.yml
 
-COPY ./docker/pygeoapi-pubsub-demo.config.yml /pygeoapi/local.config.yml
+COPY ./pygeoapi/pygeoapi-pubsub-demo.config.yml /pygeoapi/local.config.yml
 
 RUN apt-get update && \
     apt-get install -y curl && \
