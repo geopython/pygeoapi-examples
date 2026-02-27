@@ -27,23 +27,61 @@
 #
 ###################################################################
 
-FROM geopython/pygeoapi:latest
+x-logging: &logging
+  logging:
+    driver: json-file
+    options:
+      mode: non-blocking
+      max-buffer-size: 100m
+      max-size: 10m
+      max-file: 1
 
-LABEL maintainer="Tom Kralidis <tomkralidis@gmail.com>"
+services:
+  mqtt-broker:
+    container_name: mqtt-broker
+    build:
+      context: ./mqtt-broker/
+    restart: unless-stopped
+    networks:
+      - pygeoapi-pubsub-demo-net
+    <<: *logging
 
-ENV PYGEOAPI_CONFIG=/pygeoapi/local.config.yml
-ENV PYGEOAPI_OPENAPI=/pygeoapi/local.openapi.yml
-ENV PYGEOAPI_ASYNCAPI=/pygeoapi/local.asyncapi.yml
+  http-broker:
+    container_name: http-broker
+    image: binwiederhier/ntfy:latest
+    command: serve
+    restart: unless-stopped
+    volumes:
+        - ./http-broker/ntfy:/etc/ntfy
+    networks:
+      - pygeoapi-pubsub-demo-net
+    <<: *logging
 
-COPY ./docker/pygeoapi-pubsub-demo.config.yml /pygeoapi/local.config.yml
+  kafka-broker:
+    container_name: kafka-broker
+    image: apache/kafka:latest
+    restart: unless-stopped
+    networks:
+      - pygeoapi-pubsub-demo-net
+    <<: *logging
 
-RUN apt-get update && \
-    apt-get install -y curl && \
-    /venv/bin/pygeoapi asyncapi generate $PYGEOAPI_CONFIG -of $PYGEOAPI_ASYNCAPI && \
-    /venv/bin/pip3 install paho-mqtt && \
-    chgrp -R 0 /pygeoapi && \
-    chmod -R g=u /pygeoapi
+  pygeoapi-pubsub-demo-api:
+    container_name: pygeoapi-pubsub-demo-api
+    build:
+      context: ./
+    volumes:
+      - pygeoapi-pubsub-demo-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/conformance"]
+      interval: 5s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - pygeoapi-pubsub-demo-net
+    <<: *logging
 
-USER 1001
+networks:
+  pygeoapi-pubsub-demo-net:
 
-ENTRYPOINT ["/entrypoint.sh"]
+volumes:
+  pygeoapi-pubsub-demo-data:

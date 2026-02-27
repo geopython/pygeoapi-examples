@@ -27,53 +27,23 @@
 #
 ###################################################################
 
-x-logging: &logging
-  logging:
-    driver: json-file
-    options:
-      mode: non-blocking
-      max-buffer-size: 100m
-      max-size: 10m
-      max-file: 1
+FROM geopython/pygeoapi:latest
 
-services:
-  mqtt-broker:
-    container_name: mqtt-broker
-    build:
-      context: ./mqtt-broker/
-    restart: unless-stopped
-    networks:
-      - pygeoapi-pubsub-demo-net
-    <<: *logging
+LABEL maintainer="Tom Kralidis <tomkralidis@gmail.com>"
 
-  http-broker:
-    container_name: http-broker
-    image: binwiederhier/ntfy:latest
-    command: serve
-    restart: unless-stopped
-    volumes:
-        - ./http-broker/ntfy:/etc/ntfy
-    networks:
-      - pygeoapi-pubsub-demo-net
-    <<: *logging
+ENV PYGEOAPI_CONFIG=/pygeoapi/local.config.yml
+ENV PYGEOAPI_OPENAPI=/pygeoapi/local.openapi.yml
+ENV PYGEOAPI_ASYNCAPI=/pygeoapi/local.asyncapi.yml
 
-  pygeoapi-pubsub-demo-api:
-    container_name: pygeoapi-pubsub-demo-api
-    build:
-      context: ./
-    volumes:
-      - pygeoapi-pubsub-demo-data:/data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/conformance"]
-      interval: 5s
-      retries: 3
-    restart: unless-stopped
-    networks:
-      - pygeoapi-pubsub-demo-net
-    <<: *logging
+COPY ./pygeoapi/pygeoapi-pubsub-demo.config.yml /pygeoapi/local.config.yml
 
-networks:
-  pygeoapi-pubsub-demo-net:
+RUN apt-get update && \
+    apt-get install -y curl && \
+    /venv/bin/pygeoapi asyncapi generate $PYGEOAPI_CONFIG -of $PYGEOAPI_ASYNCAPI && \
+    /venv/bin/pip3 install paho-mqtt && \
+    chgrp -R 0 /pygeoapi && \
+    chmod -R g=u /pygeoapi
 
-volumes:
-  pygeoapi-pubsub-demo-data:
+USER 1001
+
+ENTRYPOINT ["/entrypoint.sh"]
