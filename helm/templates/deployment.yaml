@@ -1,0 +1,104 @@
+{{- $fullName := include "pygeoapi.fullname" . -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pygeoapi.fullname" . }}
+  labels:
+    {{- include "pygeoapi.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "pygeoapi.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "pygeoapi.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "pygeoapi.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.settings.hotReload }}
+          args:
+            - run-with-hot-reload
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ include "pygeoapi.fullname" . }}-env
+          livenessProbe:
+            httpGet:
+              path: {{ (include "pygeoapi.subPath" .) }}
+              port: http
+            initialDelaySeconds: 60
+          # readinessProbe:
+          #   httpGet:
+          #     path: {{ (include "pygeoapi.subPath" .) }}
+          #     port: http
+          #   initialDelaySeconds: 60
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          {{- with .Values.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}          
+          {{- with .Values.settings.config }}
+          {{- if .enabled }}
+          {{- $mountPath := .mountPath | default "/pygeoapi/local.config.yml" }}
+            - name: pygeoapi-config
+              mountPath: {{ $mountPath }}              
+              subPath: {{ base $mountPath }}
+              readOnly: {{ .readOnly | default true }}
+          {{- end }}
+          {{- end }}
+      volumes:
+      {{- with .Values.volumes }}      
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.settings.config }}
+        {{- if .enabled }}
+        {{- $resourceName := .name | default (printf "%s-config" $fullName) }}
+        - name: pygeoapi-config
+          {{- if .isEncrypted }}
+          secret:
+            secretName: {{ $resourceName }}
+          {{- else }}
+          configMap:
+            name: {{ $resourceName }}
+          {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
