@@ -1,0 +1,18 @@
+{{- $rootPath := (include "pygeoapi.domain" .) -}}
+{{- $context := (include "pygeoapi.subPath" .) -}}
+{{- $prefix := ternary "http" "https" (empty .Values.ingress.tls) -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "pygeoapi.fullname" . }}-env
+data:
+  SCRIPT_NAME: {{ $context | quote }}
+  PYGEOAPI_CONFIG: {{ .Values.settings.config.mountPath | quote }}  # FIXME: look into pygeoapi entrypoint, this env never changes app behaviour
+  PYGEOAPI_OPENAPI: {{ .Values.settings.openapi | quote }}          # FIXME: look into pygeoapi entrypoint, this env never changes app behaviour
+  CONTAINER_PORT: {{ .Values.service.port | toString | quote }}
+  WSGI_WORKERS: {{ .Values.settings.wsgi.workers | default 4 | toString | quote }}
+  WSGI_WORKER_TIMEOUT: {{ .Values.settings.wsgi.workerTimeout | default 6000 | toString | quote }}
+  WSGI_WORKER_CLASS: {{ .Values.settings.wsgi.workerClass | default "gevent" }}
+  # only works with local.config.yml
+  PYGEOAPI_SERVER_URL: {{ printf "%s://%s%s" $prefix $rootPath $context | quote }}
+  PYGEOAPI_SERVER_ADMIN: {{ .Values.settings.serverAdmin | toString | quote }}

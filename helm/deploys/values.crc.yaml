@@ -1,0 +1,31 @@
+ingress:
+  enabled: true
+  hosts:
+    - host: "ogcapi.pygeoapi.apps-crc.testing"
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+serviceAccount:
+  create: true 
+  name: pygeoapi
+
+settings:
+  config:
+    enabled: true
+    name: pygeoapi-custom-config
+    isEncrypted: true # false -> configMap, true -> secret
+    # mountPath: /pygeoapi/local.config.yml
+    # readOnly: true
+  # openapi: /tmp/pygeoapi-openapi.yml
+  serverAdmin: false
+  hotReload: false
+  wsgi:
+    workers: 3
+    workerTimeout: 6000
+    workerClass: gevent
+
+# resources: 
+#   limits:
+#     cpu: 1
+#   #   memory: 128Mi

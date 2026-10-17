@@ -1,0 +1,23 @@
+apiVersion: v2
+name: pygeoapi
+version: 0.1.0
+description: |-
+  pygeoapi is a Python server implementation of the OGC API suite of standards.
+  The project emerged as part of the next generation OGC API efforts in 2018 
+  and provides the capability for organizations to deploy a RESTful OGC API 
+  endpoint using OpenAPI, GeoJSON, and HTML.
+type: application
+keywords:
+  - GIS
+  - FOSS4G
+  - OGC API
+  - python
+home: https://pygeoapi.io/
+sources:
+  - https://github.com/geopython/pygeoapi
+  - https://github.com/geopython/pygeoapi-examples
+maintainers:
+  - name: Carlos Eduardo Mota
+    email: cmota.dev@gmail.com
+icon: "https://pygeoapi.io/img/pygeoapi-logo.png"
+appVersion: "0.21.0"

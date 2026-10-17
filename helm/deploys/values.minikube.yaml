@@ -1,0 +1,43 @@
+ingress:
+  enabled: true
+  hosts:
+    - host: "ogcapi-pygeoapi.minikube.local" # Change to defined minikube ingress URL
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+# overrides image: registry and tag. Default is official image, last numbered release
+image:
+  pullPolicy: Always # force to pull image on every deploy
+  tag: latest  # force to pull latest
+
+service:
+  type: NodePort  # minikube single node
+
+# securityContext:
+#   # capabilities:
+#   #   drop:
+#   #   - ALL
+#   # readOnlyRootFilesystem: true
+#   runAsNonRoot: true
+#   runAsUser: 1000
+#   runAsGroup: 0
+
+settings:
+  config:
+    enabled: true
+    name: pygeoapi-test
+    isEncrypted: true # false -> configMap, true -> secret
+    # mountPath: /pygeoapi/local.config.yml
+    # readOnly: true
+  serverAdmin: false
+  hotReload: True
+  wsgi:
+    workers: 5
+    workerTimeout: 6000
+    workerClass: gevent
+
+# resources: 
+#   limits:
+#     cpu: 1
+#   #   memory: 128Mi
